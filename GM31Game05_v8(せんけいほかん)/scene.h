@@ -6,11 +6,12 @@
 #include "game_object.h"
 #include "camera.h"
 #include "field.h"
+#include "meshField.h"
 #include "skydome.h"
-#include "model.h"
+//#include "model.h"
+#include "polygon.h"
 #include "animation_model.h"
 #include "player.h"
-#include "polygon.h"
 #include "enemy.h"
 #include "bullet.h"
 
@@ -30,7 +31,8 @@ public:
 
 		AddGameObject<CCamera>(0);
 		
-		AddGameObject<CField>(1);
+		//AddGameObject<CField>(1);
+		AddGameObject<CMeshField>(1);
 		AddGameObject<CSkydome>(1);
 		AddGameObject<CPlayer>(1);
 

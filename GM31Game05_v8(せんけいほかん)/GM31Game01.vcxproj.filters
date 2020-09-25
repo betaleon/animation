@@ -54,6 +54,9 @@
     <ClCompile Include="animation_model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="meshField.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -99,6 +102,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="animation_model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="meshField.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

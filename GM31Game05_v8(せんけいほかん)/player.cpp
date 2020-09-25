@@ -54,23 +54,23 @@ void CPlayer::Update()
 	if (CInput::GetKeyPress('A'))	//VK_SHIFTでSHIFTに対応　VK_SHIFTの定義に移動で大体キーコードわかる
 	{
 		m_BlendRate += 0.05f;
-		//m_Position.x -= 0.1f;
+		m_Position.x -= 0.1f;
 	
 	}
 	else if (CInput::GetKeyPress('D'))
 	{
 		m_BlendRate += 0.05f;
-		//m_Position.x += 0.1f;
+		m_Position.x += 0.1f;
 	}
 	else if (CInput::GetKeyPress('S'))
 	{
 		m_BlendRate += 0.05f;
-		//m_Position.z -= 0.1f;
+		m_Position.z -= 0.1f;
 	}
 	else if (CInput::GetKeyPress('W'))
 	{
 		m_BlendRate += 0.05f;
-		//m_Position.z += 0.1f;
+		m_Position.z += 0.1f;
 	}
 	else
 	{
