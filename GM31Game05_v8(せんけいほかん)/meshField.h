@@ -20,5 +20,6 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
+	float GetHeight(D3DXVECTOR3 Position);
 
 };

@@ -50,6 +50,22 @@ void CMeshField::Init()
 		}
 	}
 
+	//法線ベクトル算出
+	for (int x = 1; x <= TILE_X-1; x++)
+	{
+		for (int z = 1; z <= TILE_Z-1; z++)
+		{
+			D3DXVECTOR3 vx, vz, vn;
+
+			vx = m_vertex[x + 1][z].Position - m_vertex[x - 1][z].Position;
+			vz = m_vertex[x][z - 1].Position - m_vertex[x][z + 1].Position;
+
+			D3DXVec3Cross(&vn, &vz, &vx);	//外積
+			D3DXVec3Normalize(&vn, &vn);	//正規化(長さ１にする)
+			m_vertex[x][z].Normal = vn;
+		}
+	}
+
 	//頂点バッファ生成
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(bd));
@@ -189,4 +205,50 @@ void CMeshField::Draw()
 	//CRenderer::GetDeviceContext()->DrawIndexed((4 + ((TILE_X - 1) * 2)*TILE_Z + 2 * (TILE_Z - 1)), 0, 0);
 	CRenderer::GetDeviceContext()->DrawIndexed(((TILE_X + 2) * 2) * TILE_Z - 2, 0, 0);
 
+}
+
+float CMeshField::GetHeight(D3DXVECTOR3 Position)
+{
+	int x, z;
+
+	//ブロック番号算出
+	x = Position.x / 5.0f + 10.0f;
+	z = Position.z / -5.0f + 10.0f;
+
+	D3DXVECTOR3 pos0, pos1, pos2, pos3;
+
+	pos0 = m_vertex[x][z].Position;
+	pos1 = m_vertex[x + 1][z].Position;
+	pos2 = m_vertex[x][z + 1].Position;
+	pos3 = m_vertex[x + 1][z + 1].Position;
+
+	D3DXVECTOR3 v12, v1p, c;
+
+	v12 = pos2 - pos1;
+	v1p = Position - pos1;
+
+	D3DXVec3Cross(&c, &v12, &v1p);
+
+	float py;
+	D3DXVECTOR3 n;
+
+	if (c.y > 0.0f)
+	{
+		//左上ポリゴン
+		D3DXVECTOR3 v10;
+		v10 = pos0 - pos1;
+		D3DXVec3Cross(&n, &v10, &v12);
+	}
+	else
+	{
+		//右下ポリゴン
+		D3DXVECTOR3 v13;
+		v13 = pos3 - pos1;
+		D3DXVec3Cross(&n, &v12, &v13);
+	}
+
+	//高さ取得
+	py = -((Position.x - pos1.x)*n.x + (Position.z - pos1.z)*n.z) / n.y + pos1.y;
+
+	return py;
 }

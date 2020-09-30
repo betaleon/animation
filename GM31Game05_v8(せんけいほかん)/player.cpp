@@ -45,7 +45,7 @@ void CPlayer::Update()
 {
 
 	//m_AnimationModel->Update("Idle", "Run", m_BlendRate, m_Frame/2);
-	m_AnimationModel->Update("Run", "Sit", m_BlendRate, m_Frame/2);
+	m_AnimationModel->Update("Sit", "Run", m_BlendRate, m_Frame/2);
 	m_Frame++;
 
 	//m_Rotation.y += 0.01f;
@@ -90,6 +90,15 @@ void CPlayer::Update()
 		m_BlendRate = 0.0f;
 
 	m_Frame++;
+
+	//メッシュフィールド高さ取得
+	CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
+
+	m_Position.y = meshField->GetHeight(m_Position);
+
+
+
+
 }
 
 void CPlayer::Draw()
