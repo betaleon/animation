@@ -36,7 +36,7 @@ public:
 		AddGameObject<CSkydome>(1);
 		AddGameObject<CPlayer>(1);
 
-		AddGameObject<CPolygon>(2);
+		//AddGameObject<CPolygon>(2);
 
 		AddGameObject<CEnemy>(1)->SetPosition(D3DXVECTOR3(-5.0f, 2.0f, 5.0f));
 		AddGameObject<CEnemy>(1)->SetPosition(D3DXVECTOR3(0.0f, 2.0f, 5.0f));

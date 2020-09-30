@@ -28,17 +28,26 @@ void CSkydome::Uninit()
 void CSkydome::Update()
 {
 
-
 }
 
 void CSkydome::Draw()
 {
+
+
 	//マトリクス設定
 	D3DXMATRIX world, scale, rot, trans;
 	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
 	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
 	world = scale * rot * trans;
+
+	LIGHT light;
+	light.Enable = false;
+	light.Direction = D3DXVECTOR4(1.0f, -1.0f, 1.0f, 0.0f);
+	D3DXVec4Normalize(&light.Direction, &light.Direction);
+	light.Ambient = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f);
+	light.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	CRenderer::SetLight(light);
 
 	CRenderer::SetWorldMatrix(&world);
 
