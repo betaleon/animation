@@ -49,28 +49,32 @@ void CPlayer::Update()
 	m_Frame++;
 
 	//m_Rotation.y += 0.01f;
+	D3DXVECTOR3 forward = GetForward();//前方向ベクトル
 	
-	
-	if (CInput::GetKeyPress('A'))	//VK_SHIFTでSHIFTに対応　VK_SHIFTの定義に移動で大体キーコードわかる
+	if (CInput::GetKeyPress('D'))	//VK_SHIFTでSHIFTに対応　VK_SHIFTの定義に移動で大体キーコードわかる
 	{
-		m_BlendRate += 0.05f;
-		m_Position.x -= 0.1f;
+		m_Rotation.y += 0.05f;
+		//m_BlendRate += 0.05f;
+		//m_Position.x -= 0.1f;
 	
 	}
-	else if (CInput::GetKeyPress('D'))
+	else if (CInput::GetKeyPress('A'))
 	{
-		m_BlendRate += 0.05f;
-		m_Position.x += 0.1f;
-	}
-	else if (CInput::GetKeyPress('S'))
-	{
-		m_BlendRate += 0.05f;
-		m_Position.z -= 0.1f;
+		m_Rotation.y -= 0.05f;
+		//m_BlendRate += 0.05f;
+		//m_Position.x += 0.1f;
 	}
 	else if (CInput::GetKeyPress('W'))
 	{
+		m_Position -= forward * 0.15f;
 		m_BlendRate += 0.05f;
-		m_Position.z += 0.1f;
+		//m_Position.z -= 0.1f;
+	}
+	else if (CInput::GetKeyPress('S'))
+	{
+		m_Position += forward * 0.15f;
+		m_BlendRate += 0.05f;
+		//m_Position.z += 0.1f;
 	}
 	else
 	{

@@ -21,5 +21,8 @@ public:
 	void Update();
 	void Draw();
 	float GetHeight(D3DXVECTOR3 Position);
-
+	void DiamondSquare(int Array[TILE_X + 1][TILE_Z + 1], int size);
+	void SquareStep(int Array[TILE_X + 1][TILE_Z + 1], int x, int z, int reach);
+	void DiamondStep(int  Array[TILE_X + 1][TILE_Z + 1], int x, int z, int reach);
+	float Random(int range);
 };

@@ -12,7 +12,8 @@
 
 void CMeshField::Init()
 {
-	
+	int Array[TILE_X + 1][TILE_Z + 1] = {};
+	DiamondSquare(Array, TILE_X);
 	
 	//for (int i = 0, k = 0; i <= TILE_Z; i++)
 	//{
@@ -41,7 +42,7 @@ void CMeshField::Init()
 		for (int z = 0; z <= TILE_Z; z++)
 		{
 			//float y = sinf(x*0.5f)*5.0f;
-			float y = sinf(x*0.5f)*sinf(z*0.5f)*5.0f;
+			float y = sinf(x*0.5f)*sinf(z*0.5f)*5.0f + Array[x][z];
 			//float y = g_FieldHeight[z][x];
 			m_vertex[x][z].Position = D3DXVECTOR3((x - 10)*5.0f,y, (z - 10)*-5.0f);
 			m_vertex[x][z].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
@@ -173,6 +174,7 @@ void CMeshField::Update()
 
 void CMeshField::Draw()
 {
+
 	//マトリクス設定
 	D3DXMATRIX world, scale, rot, trans;
 	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
@@ -251,4 +253,92 @@ float CMeshField::GetHeight(D3DXVECTOR3 Position)
 	py = -((Position.x - pos1.x)*n.x + (Position.z - pos1.z)*n.z) / n.y + pos1.y;
 
 	return py;
+}
+
+void CMeshField::DiamondSquare(int Array[TILE_X + 1][TILE_Z + 1], int size)
+{
+	int half = size / 2;
+	if (half < 1)
+		return;
+	//square steps
+	for (int z = half; z < TILE_Z; z += size)
+		for (int x = half; x < TILE_X; x += size)
+			SquareStep(Array, x % TILE_X, z % TILE_Z, half);
+	// diamond steps
+	int col = 0;
+	for (int x = 0; x < TILE_X; x += half)
+	{
+		col++;
+		//If this is an odd column.
+		if (col % 2 == 1)
+			for (int z = half; z < TILE_Z; z += size)
+				DiamondStep(Array, x % TILE_X, z % TILE_Z, half);
+		else
+			for (int z = 0; z < TILE_Z; z += size)
+				DiamondStep(Array, x % TILE_X, z % TILE_Z, half);
+	}
+	DiamondSquare(Array, size / 2);
+}
+
+void CMeshField::SquareStep(int Array[TILE_X + 1][TILE_Z + 1], int x, int z, int reach)
+{
+	int count = 0;
+	float avg = 5.0f;
+	if (x - reach >= 0 && z - reach >= 0)
+	{
+		avg += Array[x - reach][z - reach];
+		count++;
+	}
+	if (x - reach >= 0 && z + reach < TILE_Z)
+	{
+		avg += Array[x - reach][z + reach];
+		count++;
+	}
+	if (x + reach < TILE_X && z - reach >= 0)
+	{
+		avg += Array[x + reach][z - reach];
+		count++;
+	}
+	if (x + reach < TILE_X && z + reach < TILE_Z)
+	{
+		avg += Array[x + reach][z + reach];
+		count++;
+	}
+	avg += Random(reach);
+	avg /= count;
+	Array[x][z] = round(avg);
+}
+
+void CMeshField::DiamondStep(int Array[TILE_X + 1][TILE_Z + 1], int x, int z, int reach)
+{
+	int count = 0;
+	float avg = 5.0f;
+	if (x - reach >= 0)
+	{
+		avg += Array[x - reach][z];
+		count++;
+	}
+	if (x + reach < TILE_X)
+	{
+		avg += Array[x + reach][z];
+		count++;
+	}
+	if (z - reach >= 0)
+	{
+		avg += Array[x][z - reach];
+		count++;
+	}
+	if (z + reach < TILE_Z)
+	{
+		avg += Array[x][z + reach];
+		count++;
+	}
+	avg += Random(reach);
+	avg /= count;
+	Array[x][z] = (int)avg;
+}
+
+float CMeshField::Random(int range)
+{
+	return (rand() % (range * 2)) - range;
 }
