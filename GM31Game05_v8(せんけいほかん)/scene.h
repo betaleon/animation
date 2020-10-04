@@ -14,6 +14,7 @@
 #include "player.h"
 #include "enemy.h"
 #include "bullet.h"
+#include "grass.h"
 
 class CScene
 {
@@ -41,8 +42,13 @@ public:
 		AddGameObject<CEnemy>(1)->SetPosition(D3DXVECTOR3(-5.0f, 2.0f, 5.0f));
 		AddGameObject<CEnemy>(1)->SetPosition(D3DXVECTOR3(0.0f, 2.0f, 5.0f));
 		AddGameObject<CEnemy>(1)->SetPosition(D3DXVECTOR3(5.0f, 2.0f, 5.0f));
-
-
+		for (int i = 0; i < 50; i++)
+		{
+			AddGameObject<CGrass>(1)->SetPosition(D3DXVECTOR3(rand() % 500 - 300.0f, 
+																2.0f,
+																rand() % 500 - 300.0f));
+		}
+		
 
 	}
 
