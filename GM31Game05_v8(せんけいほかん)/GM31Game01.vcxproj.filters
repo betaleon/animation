@@ -13,6 +13,12 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Resource Files\Shader">
+      <UniqueIdentifier>{b0880950-acfe-4481-94a8-16882562774b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Imgui">
+      <UniqueIdentifier>{ca405a37-8d1e-4da9-87da-fb69e284b528}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -61,6 +67,27 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="grass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui.cpp">
+      <Filter>Resource Files\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_demo.cpp">
+      <Filter>Resource Files\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_draw.cpp">
+      <Filter>Resource Files\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_dx11.cpp">
+      <Filter>Resource Files\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_win32.cpp">
+      <Filter>Resource Files\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_widgets.cpp">
+      <Filter>Resource Files\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="debugimgui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -119,13 +146,40 @@
     <ClInclude Include="grass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="imconfig.h">
+      <Filter>Resource Files\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui.h">
+      <Filter>Resource Files\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_dx11.h">
+      <Filter>Resource Files\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_win32.h">
+      <Filter>Resource Files\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_internal.h">
+      <Filter>Resource Files\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_rectpack.h">
+      <Filter>Resource Files\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_textedit.h">
+      <Filter>Resource Files\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_truetype.h">
+      <Filter>Resource Files\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="debugimgui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="pixelShader.hlsl">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Shader</Filter>
     </FxCompile>
     <FxCompile Include="vertexShader.hlsl">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Shader</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

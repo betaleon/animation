@@ -24,9 +24,9 @@
 #pragma comment (lib, "d3dx9.lib")
 #pragma comment (lib, "d3dx11.lib")
 
-
-#define SCREEN_WIDTH	(960)			// ウインドウの幅
-#define SCREEN_HEIGHT	(540)			// ウインドウの高さ
+#define FULLSCREEN false
+#define SCREEN_WIDTH	(1920)			// ウインドウの幅
+#define SCREEN_HEIGHT	(1080)			// ウインドウの高さ
 
 
 HWND GetWindow();
