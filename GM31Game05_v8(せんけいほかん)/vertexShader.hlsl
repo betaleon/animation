@@ -92,6 +92,23 @@ void main( in  float4 inPosition		: POSITION0,
 	}
 
 	outDiffuse.a = inDiffuse.a * Material.Diffuse.a;
-
 }
 
+//VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
+//{
+//	VertexShaderOutput output = (VertexShaderOutput)0;
+//
+//	float4 worldPosition = mul(input.Position, World);
+//	float4 viewPosition = mul(worldPosition, View);
+//	output.Position = mul(viewPosition, Projection);
+//
+//	// TODO: add your vertex shader code here.
+//	output.Texcoord = input.Texcoord;
+//	output.Normal = input.Normal;
+//	output.ObjPosition = input.Position;
+//
+//	//　フォグ係数算出
+//	output.Fog = FogCoord.x + output.Position.w * FogCoord.y;
+//
+//	return output;
+//}

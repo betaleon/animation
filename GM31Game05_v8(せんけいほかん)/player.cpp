@@ -15,6 +15,8 @@ void CPlayer ::Init()
 	//m_AnimationModel->Load("asset\\model\\Akai_Idle.fbx");
 	//m_AnimationModel->LoadAnimation("asset\\model\\Akai_Idle.fbx","Idle");
 
+	shader_lit = (CLit*)CRenderer::GetShader();
+
 	m_AnimationModel->Load("asset\\model\\Reaction.fbx");
 	m_AnimationModel->LoadAnimation("asset\\model\\Akai_Run.fbx", "Run");
 	m_AnimationModel->LoadAnimation("asset\\model\\Reaction.fbx", "React");
@@ -114,7 +116,7 @@ void CPlayer::Draw()
 	//world = scale * rot * trans;
 	world = rot * scale * trans ;
 
-	CRenderer::SetWorldMatrix(&world);
+	shader_lit->SetWorldMatrix(&world);
 
 	//m_Model->Draw();
 	m_AnimationModel->Draw();

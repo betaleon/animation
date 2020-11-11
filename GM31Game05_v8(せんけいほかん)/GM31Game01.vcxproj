@@ -167,6 +167,7 @@
     <ClCompile Include="manager.cpp" />
     <ClCompile Include="meshField.cpp" />
     <ClCompile Include="model.cpp" />
+    <ClCompile Include="lit.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="polygon.cpp" />
     <ClCompile Include="renderer.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="imstb_textedit.h" />
     <ClInclude Include="imstb_truetype.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="lit.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="manager.h" />
     <ClInclude Include="meshField.h" />
@@ -199,6 +201,7 @@
     <ClInclude Include="polygon.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="scene.h" />
+    <ClInclude Include="shader.h" />
     <ClInclude Include="skydome.h" />
     <ClInclude Include="tree.h" />
   </ItemGroup>

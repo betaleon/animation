@@ -12,7 +12,8 @@ void CAnimationModel::Draw()
 	ZeroMemory(&material, sizeof(material));
 	material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	material.Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	CRenderer::SetMaterial(material);
+	shader_lit->SetMaterial(material);
+	//CRenderer::SetMaterial(material);
 
 	for (unsigned int m = 0; m < m_Scene->mNumMeshes; m++)
 	{
@@ -41,6 +42,7 @@ void CAnimationModel::Draw()
 
 void CAnimationModel::Load(const char *FileName)
 {
+	shader_lit = (CLit*)CRenderer::GetShader();
 	const std::string modelPath(FileName);
 
 	m_Scene = aiImportFile(FileName,

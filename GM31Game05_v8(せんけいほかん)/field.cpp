@@ -5,6 +5,7 @@
 
 void CField::Init()
 {
+	shader_lit = (CLit*)CRenderer::GetShader();
 	VERTEX_3D vertex[4];
 
 	vertex[0].Position	= D3DXVECTOR3(-10.0f, 0.0f, 10.0f);
@@ -79,7 +80,7 @@ void CField::Draw()
 	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
 	world = scale * rot * trans;
-	CRenderer::SetWorldMatrix(&world);
+	shader_lit->SetWorldMatrix(&world);
 
 	//頂点バッファ設定
 	UINT stride = sizeof(VERTEX_3D);
@@ -90,7 +91,7 @@ void CField::Draw()
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(material));
 	material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	CRenderer::SetMaterial(material);
+	shader_lit->SetMaterial(material);
 
 	//テクスチャ設定
 	CRenderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);

@@ -3,6 +3,8 @@
 #include <map>
 #include <vector>
 
+#include "lit.h"
+
 #include "assimp/cimport.h"
 #include "assimp/scene.h"
 #include "assimp/postprocess.h"
@@ -48,7 +50,7 @@ private:
 	void CreateBone(aiNode* node);
 	void UpdateBoneMatrix(aiNode* node, aiMatrix4x4 matrix);
 
-
+	CLit* shader_lit;
 
 public:
 	void Load(const char *FileName);

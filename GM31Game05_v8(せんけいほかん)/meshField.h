@@ -1,4 +1,5 @@
 #pragma once
+#include "lit.h"
 #include "game_object.h"
 #define TILE_WIDTH	10.0f
 #define TILE_HEIGHT 10.0f
@@ -15,6 +16,8 @@ private:
 
 	//VERTEX_3D m_vertex[(TILE_X + 1)*(TILE_Z+1)];
 	VERTEX_3D m_vertex[TILE_X + 1][TILE_Z + 1];
+
+	CLit* shader_lit;
 public:
 	void Init();
 	void Uninit();

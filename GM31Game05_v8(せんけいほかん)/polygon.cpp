@@ -13,6 +13,7 @@
 
 void CPolygon::Init()
 {
+	shader_lit = (CLit*)CRenderer::GetShader();
 	VERTEX_3D vertex[4];
 
 	vertex[0].Position = D3DXVECTOR3(BASE_X - SCALE_X/2+POSITION_X, BASE_Y - SCALE_Y/2+ POSITION_Y, 0.0f);
@@ -77,9 +78,9 @@ void CPolygon::Draw()
 {
 	LIGHT light;
 	light.Enable = false;
-	CRenderer::SetLight(light);
+	shader_lit->SetLight(light);
 	//マトリクス設定
-	CRenderer::SetWorldViewProjection2D();
+	shader_lit->SetWorldViewProjection2D();
 
 	//頂点バッファ設定
 	UINT stride = sizeof(VERTEX_3D);
@@ -90,7 +91,7 @@ void CPolygon::Draw()
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(material));
 	material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	CRenderer::SetMaterial(material);
+	shader_lit->SetMaterial(material);
 
 	//テクスチャ設定
 	CRenderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);

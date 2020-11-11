@@ -19,6 +19,15 @@
     <Filter Include="Resource Files\Imgui">
       <UniqueIdentifier>{ca405a37-8d1e-4da9-87da-fb69e284b528}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Shader\cpp">
+      <UniqueIdentifier>{4cbacec6-8d05-4d56-b571-646337753773}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Shader\header">
+      <UniqueIdentifier>{38dcc66c-ed7d-4c3f-8730-98cc4f6a735e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Shader\hlsl">
+      <UniqueIdentifier>{aea8c616-995d-4697-92c6-c7196f18f1ec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -89,6 +98,9 @@
     </ClCompile>
     <ClCompile Include="debugimgui.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lit.cpp">
+      <Filter>Resource Files\Shader\cpp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -173,13 +185,19 @@
     <ClInclude Include="debugimgui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="lit.h">
+      <Filter>Resource Files\Shader\header</Filter>
+    </ClInclude>
+    <ClInclude Include="shader.h">
+      <Filter>Resource Files\Shader\header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="pixelShader.hlsl">
-      <Filter>Resource Files\Shader</Filter>
+      <Filter>Resource Files\Shader\hlsl</Filter>
     </FxCompile>
     <FxCompile Include="vertexShader.hlsl">
-      <Filter>Resource Files\Shader</Filter>
+      <Filter>Resource Files\Shader\hlsl</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

@@ -1,4 +1,5 @@
 #pragma once
+#include "lit.h"
 #include "game_object.h"
 
 class CCamera:public CGameObject
@@ -9,6 +10,8 @@ private:
 
 	D3DXMATRIX m_viewMatrix;
 	D3DXMATRIX m_ProjectionMatrix;
+
+	CLit* shader_lit;
 
 public:
 	CCamera(){}

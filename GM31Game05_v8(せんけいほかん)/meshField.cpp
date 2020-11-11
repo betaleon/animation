@@ -12,6 +12,8 @@
 
 void CMeshField::Init()
 {
+	shader_lit = (CLit*)CRenderer::GetShader();
+
 	int Array[TILE_X + 1][TILE_Z + 1] = {};
 	DiamondSquare(Array, TILE_X);
 	
@@ -181,7 +183,7 @@ void CMeshField::Draw()
 	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
 	world = scale * rot * trans;
-	CRenderer::SetWorldMatrix(&world);
+	shader_lit->SetWorldMatrix(&world);
 
 	//頂点バッファ設定
 	UINT stride = sizeof(VERTEX_3D);
@@ -195,7 +197,7 @@ void CMeshField::Draw()
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(material));
 	material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	CRenderer::SetMaterial(material);
+	shader_lit->SetMaterial(material);
 
 	//テクスチャ設定
 	CRenderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);

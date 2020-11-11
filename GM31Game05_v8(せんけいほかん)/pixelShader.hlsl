@@ -42,3 +42,21 @@ void main(	in  float4 inPosition		: POSITION0,
 	outDiffuse *= inDiffuse;
 
 }
+
+//float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
+//{
+//	// TODO: add your pixel shader code here.
+//	float3 N = normalize(input.Normal);
+//	float3 L = normalize(LightPosition - input.ObjPosition.xyz);
+//	float3 E = normalize(CameraPosition - input.ObjPosition.xyz);
+//	float3 H = normalize(L + E);
+//	
+//	float4 output = HalfLambert(N, L, H);
+//	output *= tex2D(DecalSmp, input.Texcoord);
+//	
+//	//　フォグ色とオブジェクト色と線形合成
+//	output = lerp(FogColor, output, input.Fog);
+//	
+//	return output;
+//	
+//}

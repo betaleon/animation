@@ -1,5 +1,5 @@
 #pragma once
-
+#include "lit.h"
 #include "game_object.h"
 
 
@@ -9,6 +9,7 @@ private:
 
 	class CModel* m_Model;
 	//前方宣言(ポインタ変数の有効)
+	CLit* shader_lit;
 
 public:
 	CEnemy() {}

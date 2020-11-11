@@ -15,6 +15,7 @@ void CSkydome::Init()
 	m_Rotation = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	m_Scale = D3DXVECTOR3(200.0f, 200.0f, 200.0f);
 
+	shader_lit = (CLit*)CRenderer::GetShader();
 }
 
 void CSkydome::Uninit()
@@ -47,9 +48,9 @@ void CSkydome::Draw()
 	D3DXVec4Normalize(&light.Direction, &light.Direction);
 	light.Ambient = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f);
 	light.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	CRenderer::SetLight(light);
+	shader_lit->SetLight(light);
 
-	CRenderer::SetWorldMatrix(&world);
+	shader_lit->SetWorldMatrix(&world);
 
 	m_Model->Draw();
 }

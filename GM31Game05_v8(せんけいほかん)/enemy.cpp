@@ -14,6 +14,7 @@ void CEnemy::Init()
 	m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 
+	shader_lit = (CLit*)CRenderer::GetShader();
 }
 
 void CEnemy::Uninit()
@@ -39,7 +40,7 @@ void CEnemy::Draw()
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
 	world = scale * rot * trans;
 
-	CRenderer::SetWorldMatrix(&world);
+	shader_lit->SetWorldMatrix(&world);
 
 	m_Model->Draw();
 }

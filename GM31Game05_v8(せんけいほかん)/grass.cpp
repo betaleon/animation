@@ -8,6 +8,7 @@
 #define SIZE 3.0f
 void CGrass::Init()
 {
+	shader_lit = (CLit*)CRenderer::GetShader();
 	VERTEX_3D vertex[4];
 
 	vertex[0].Position = D3DXVECTOR3(-SIZE, SIZE, 0.0f);
@@ -118,7 +119,7 @@ void CGrass::Draw()
 	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
 	world = scale * invView * trans;
-	CRenderer::SetWorldMatrix(&world);
+	shader_lit->SetWorldMatrix(&world);
 
 	//頂点バッファ設定
 	UINT stride = sizeof(VERTEX_3D);
@@ -129,7 +130,7 @@ void CGrass::Draw()
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(material));
 	material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	CRenderer::SetMaterial(material);
+	shader_lit->SetMaterial(material);
 
 	//テクスチャ設定
 	CRenderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);
