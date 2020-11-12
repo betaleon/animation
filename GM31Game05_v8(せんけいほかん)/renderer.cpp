@@ -28,7 +28,7 @@ ID3D11DepthStencilView* CRenderer::m_DepthStencilView = NULL;
 ID3D11DepthStencilState* CRenderer::m_DepthStateEnable = NULL;
 ID3D11DepthStencilState* CRenderer::m_DepthStateDisable = NULL;
 
-CShader CRenderer::shader_lit;
+CShader* CRenderer::shader_lit;
 
 
 
@@ -189,13 +189,13 @@ void CRenderer::Init()
 
 	m_ImmediateContext->PSSetSamplers( 0, 1, &samplerState );
 
-	shader_lit = CLit();
-	shader_lit.Init();
+	shader_lit = new CLit();
+	shader_lit->Init();
 	
 
 	// シェーダ設定
-	m_ImmediateContext->VSSetShader( shader_lit.m_VertexShader, NULL, 0 );
-	m_ImmediateContext->PSSetShader( shader_lit.m_PixelShader, NULL, 0 );
+	m_ImmediateContext->VSSetShader( shader_lit->m_VertexShader, NULL, 0 );
+	m_ImmediateContext->PSSetShader( shader_lit->m_PixelShader, NULL, 0 );
 
 
 
@@ -207,7 +207,7 @@ void CRenderer::Init()
 	light.Ambient = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f);
 	light.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 
-	shader_lit.SetLight(light);
+	shader_lit->SetLight(light);
 
 
 
@@ -216,7 +216,7 @@ void CRenderer::Init()
 	ZeroMemory(&material, sizeof(material));
 	material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	material.Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	shader_lit.SetMaterial(material);
+	shader_lit->SetMaterial(material);
 
 
 

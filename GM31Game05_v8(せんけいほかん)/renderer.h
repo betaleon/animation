@@ -76,7 +76,7 @@ private:
 	static ID3D11DepthStencilState* m_DepthStateEnable;
 	static ID3D11DepthStencilState* m_DepthStateDisable;
 
-	static CShader shader_lit;
+	static CShader* shader_lit;
 
 
 public:
@@ -89,7 +89,7 @@ public:
 
 	static ID3D11Device* GetDevice( void ){ return m_D3DDevice; }
 	static ID3D11DeviceContext* GetDeviceContext( void ){ return m_ImmediateContext; }
-	static CShader* GetShader(void) { return &shader_lit; }
+	static CShader* GetShader(void) { return shader_lit; }
 
 
 };
