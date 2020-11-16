@@ -1,8 +1,9 @@
-
+#include <io.h>
+#include <typeinfo>
 #include "main.h"
 #include "renderer.h"
 #include "lit.h"
-#include <io.h>
+#include "fog.h"
 
 
 D3D_FEATURE_LEVEL       CRenderer::m_FeatureLevel = D3D_FEATURE_LEVEL_11_0;
@@ -29,10 +30,12 @@ ID3D11DepthStencilState* CRenderer::m_DepthStateEnable = NULL;
 ID3D11DepthStencilState* CRenderer::m_DepthStateDisable = NULL;
 
 CShader* CRenderer::shader_lit;
+CShader* CRenderer::shader_fog;
 
-
-
-
+//std::vector<std::shared_ptr<CShader>> CRenderer::m_shaders = std::vector<std::shared_ptr<Shader>>();
+//std::vector<std::shared_ptr<ComputeShader>> CRenderer::m_computeShaders = std::vector<std::shared_ptr<ComputeShader>>();
+//
+//std::weak_ptr<Shader> CRenderer::m_activeShader;
 
 void CRenderer::Init()
 {
@@ -191,11 +194,18 @@ void CRenderer::Init()
 
 	shader_lit = new CLit();
 	shader_lit->Init();
+
+	//shader_fog = new CFog();
+	//shader_fog->Init();
 	
 
 	// シェーダ設定
 	m_ImmediateContext->VSSetShader( shader_lit->m_VertexShader, NULL, 0 );
 	m_ImmediateContext->PSSetShader( shader_lit->m_PixelShader, NULL, 0 );
+
+	//m_ImmediateContext->VSSetShader(shader_fog->m_VertexShader, NULL, 0);
+	//m_ImmediateContext->PSSetShader(shader_fog->m_PixelShader, NULL, 0);
+
 
 
 
@@ -209,6 +219,8 @@ void CRenderer::Init()
 
 	shader_lit->SetLight(light);
 
+	//shader_fog->SetLight(light);
+
 
 
 	// マテリアル初期化
@@ -216,7 +228,10 @@ void CRenderer::Init()
 	ZeroMemory(&material, sizeof(material));
 	material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	material.Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+
 	shader_lit->SetMaterial(material);
+
+	//shader_fog->SetMaterial(material);
 
 
 

@@ -102,6 +102,9 @@
     <ClCompile Include="lit.cpp">
       <Filter>Resource Files\Shader\cpp</Filter>
     </ClCompile>
+    <ClCompile Include="fog.cpp">
+      <Filter>Resource Files\Shader\cpp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -191,12 +194,21 @@
     <ClInclude Include="shader.h">
       <Filter>Resource Files\Shader\header</Filter>
     </ClInclude>
+    <ClInclude Include="fog.h">
+      <Filter>Resource Files\Shader\header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="pixelShader.hlsl">
       <Filter>Resource Files\Shader\hlsl</Filter>
     </FxCompile>
     <FxCompile Include="vertexShader.hlsl">
+      <Filter>Resource Files\Shader\hlsl</Filter>
+    </FxCompile>
+    <FxCompile Include="fog_PS.hlsl">
+      <Filter>Resource Files\Shader\hlsl</Filter>
+    </FxCompile>
+    <FxCompile Include="fog_VS.hlsl">
       <Filter>Resource Files\Shader\hlsl</Filter>
     </FxCompile>
   </ItemGroup>

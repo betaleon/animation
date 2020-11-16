@@ -4,7 +4,6 @@
 
 class CShader
 {
-	friend class CRenderer;
 protected:
 	ID3D11VertexShader*     m_VertexShader = NULL;
 	ID3D11PixelShader*      m_PixelShader = NULL;
@@ -15,9 +14,22 @@ protected:
 	ID3D11Buffer*			m_MaterialBuffer = NULL;
 	ID3D11Buffer*			m_LightBuffer = NULL;
 
+	friend class CRenderer;
 public:
 	virtual void Init() {}
-	virtual void UnInit() {}
+	virtual void UnInit() {
+		if (m_WorldBuffer) m_WorldBuffer->Release();
+		if (m_ViewBuffer) m_ViewBuffer->Release();
+		if (m_ProjectionBuffer) m_ProjectionBuffer->Release();
+		if (m_LightBuffer) m_LightBuffer->Release();
+		if (m_MaterialBuffer) m_MaterialBuffer->Release();
+
+		if (m_VertexLayout) m_VertexLayout->Release();
+		if (m_VertexShader) m_VertexShader->Release();
+		if (m_PixelShader) m_PixelShader->Release();
+	}
+
+	virtual void UpdateConstantBuffers(){}
 	
 	virtual void SetWorldViewProjection2D() {
 		D3DXMATRIX world;
@@ -35,31 +47,19 @@ public:
 		D3DXMatrixOrthoOffCenterLH(&projection, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0.0f, 1.0f);
 		D3DXMatrixTranspose(&projection, &projection);
 		CRenderer::GetDeviceContext()->UpdateSubresource(m_ProjectionBuffer, 0, NULL, &projection, 0, 0);
-	};
+	}
 
-	virtual void SetWorldMatrix(D3DXMATRIX * WorldMatrix) { 
-		D3DXMATRIX world;
-		D3DXMatrixTranspose(&world, WorldMatrix);
-		CRenderer::GetDeviceContext()->UpdateSubresource(m_WorldBuffer, 0, NULL, &world, 0, 0); 
-	};
+	virtual void SetWorldMatrix(D3DXMATRIX * WorldMatrix) {}
 
-	virtual void SetViewMatrix(D3DXMATRIX * ViewMatrix) {
-		D3DXMATRIX view;
-		D3DXMatrixTranspose(&view, ViewMatrix);
-		CRenderer::GetDeviceContext()->UpdateSubresource(m_ViewBuffer, 0, NULL, &view, 0, 0);
-	};
+	virtual void SetViewMatrix(D3DXMATRIX * ViewMatrix) {}
 
-	virtual void SetProjectionMatrix(D3DXMATRIX * ProjectionMatrix) {
-		D3DXMATRIX projection;
-		D3DXMatrixTranspose(&projection, ProjectionMatrix);
-		CRenderer::GetDeviceContext()->UpdateSubresource(m_ProjectionBuffer, 0, NULL, &projection, 0, 0);
-	};
+	virtual void SetProjectionMatrix(D3DXMATRIX * ProjectionMatrix) {}
 
-	virtual void SetMaterial(MATERIAL Material) {
-		CRenderer::GetDeviceContext()->UpdateSubresource(m_MaterialBuffer, 0, NULL, &Material, 0, 0);
-	};
+	virtual void SetMaterial(MATERIAL Material) {}
 
-	virtual void SetLight(LIGHT Light) {
-		CRenderer::GetDeviceContext()->UpdateSubresource(m_LightBuffer, 0, NULL, &Light, 0, 0);
-	};
+	virtual void SetLight(LIGHT Light) {}
+	
+	virtual void PS_SetTexture(ID3D11ShaderResourceView* texture){}
+	virtual void PS_SetSamplerState(ID3D11SamplerState* sampler){}
+
 };
