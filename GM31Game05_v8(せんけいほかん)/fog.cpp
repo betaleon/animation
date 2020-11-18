@@ -95,7 +95,7 @@ void CFog::Init()
 	hBufferDesc.ByteWidth = sizeof(LIGHT);
 	device->CreateBuffer(&hBufferDesc, NULL, &m_LightBuffer);
 
-	UpdateConstantBuffers();
+	//UpdateConstantBuffers();
 
 	//// ƒ}ƒeƒŠƒAƒ‹‰Šú‰»
 	//MATERIAL material;

@@ -195,13 +195,13 @@ void CRenderer::Init()
 	shader_lit = new CLit();
 	shader_lit->Init();
 
-	//shader_fog = new CFog();
-	//shader_fog->Init();
+	shader_fog = new CFog();
+	shader_fog->Init();
 	
 
 	// シェーダ設定
-	m_ImmediateContext->VSSetShader( shader_lit->m_VertexShader, NULL, 0 );
-	m_ImmediateContext->PSSetShader( shader_lit->m_PixelShader, NULL, 0 );
+	m_ImmediateContext->VSSetShader( shader_fog->m_VertexShader, NULL, 0 );
+	m_ImmediateContext->PSSetShader( shader_fog->m_PixelShader, NULL, 0 );
 
 	//m_ImmediateContext->VSSetShader(shader_fog->m_VertexShader, NULL, 0);
 	//m_ImmediateContext->PSSetShader(shader_fog->m_PixelShader, NULL, 0);
