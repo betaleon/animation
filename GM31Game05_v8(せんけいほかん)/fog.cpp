@@ -96,13 +96,6 @@ void CFog::Init()
 	device->CreateBuffer(&hBufferDesc, NULL, &m_LightBuffer);
 
 	//UpdateConstantBuffers();
-
-	//// ƒ}ƒeƒŠƒAƒ‹‰Šú‰»
-	//MATERIAL material;
-	//ZeroMemory(&material, sizeof(material));
-	//material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	//material.Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	//SetMaterial(material);
 }
 
 void CFog::UnInit()

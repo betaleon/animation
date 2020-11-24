@@ -1,5 +1,6 @@
 #pragma once
 #include "lit.h"
+#include "pop.h"
 #include "game_object.h"
 
 //class CAnimationModel;
@@ -16,6 +17,7 @@ private:
 	int m_Frame = 0;
 	float m_BlendRate = 1.0f;
 	CLit* shader_lit;
+	CPop* shader_pop;
 
 public:
 

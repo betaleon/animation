@@ -7,6 +7,7 @@ class CShader
 protected:
 	ID3D11VertexShader*     m_VertexShader = NULL;
 	ID3D11PixelShader*      m_PixelShader = NULL;
+	ID3D11GeometryShader*	m_GeometryShader = NULL;
 	ID3D11InputLayout*      m_VertexLayout = NULL;
 	ID3D11Buffer*			m_WorldBuffer = NULL;
 	ID3D11Buffer*			m_ViewBuffer = NULL;
@@ -26,6 +27,7 @@ public:
 
 		if (m_VertexLayout) m_VertexLayout->Release();
 		if (m_VertexShader) m_VertexShader->Release();
+		if (m_GeometryShader) m_GeometryShader->Release();
 		if (m_PixelShader) m_PixelShader->Release();
 	}
 

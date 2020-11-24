@@ -72,12 +72,12 @@ private:
 	static ID3D11RenderTargetView* m_RenderTargetView;
 	static ID3D11DepthStencilView* m_DepthStencilView;
 
-
 	static ID3D11DepthStencilState* m_DepthStateEnable;
 	static ID3D11DepthStencilState* m_DepthStateDisable;
 
 	static CShader* shader_lit;
 	static CShader* shader_fog;
+	static CShader* shader_pop;
 
 
 public:
@@ -96,6 +96,8 @@ public:
 	static CShader* GetFogShader() {
 		return shader_fog;
 	}
-
+	static CShader* GetPopShader() {
+		return shader_pop;
+	}
 
 };

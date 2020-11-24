@@ -4,6 +4,7 @@
 #include "renderer.h"
 #include "lit.h"
 #include "fog.h"
+#include "pop.h"
 
 
 D3D_FEATURE_LEVEL       CRenderer::m_FeatureLevel = D3D_FEATURE_LEVEL_11_0;
@@ -15,22 +16,12 @@ ID3D11RenderTargetView* CRenderer::m_RenderTargetView = NULL;
 ID3D11DepthStencilView* CRenderer::m_DepthStencilView = NULL;
 
 
-
-//ID3D11VertexShader*     CRenderer::m_VertexShader = NULL;
-//ID3D11PixelShader*      CRenderer::m_PixelShader = NULL;
-//ID3D11InputLayout*      CRenderer::m_VertexLayout = NULL;
-//ID3D11Buffer*			CRenderer::m_WorldBuffer = NULL;
-//ID3D11Buffer*			CRenderer::m_ViewBuffer = NULL;
-//ID3D11Buffer*			CRenderer::m_ProjectionBuffer = NULL;
-//ID3D11Buffer*			CRenderer::m_MaterialBuffer = NULL;
-//ID3D11Buffer*			CRenderer::m_LightBuffer = NULL;
-
-
 ID3D11DepthStencilState* CRenderer::m_DepthStateEnable = NULL;
 ID3D11DepthStencilState* CRenderer::m_DepthStateDisable = NULL;
 
 CShader* CRenderer::shader_lit;
 CShader* CRenderer::shader_fog;
+CShader* CRenderer::shader_pop;
 
 //std::vector<std::shared_ptr<CShader>> CRenderer::m_shaders = std::vector<std::shared_ptr<Shader>>();
 //std::vector<std::shared_ptr<ComputeShader>> CRenderer::m_computeShaders = std::vector<std::shared_ptr<ComputeShader>>();
@@ -101,7 +92,6 @@ void CRenderer::Init()
 	dsvd.ViewDimension	= D3D11_DSV_DIMENSION_TEXTURE2D;
 	dsvd.Flags			= 0;
 	m_D3DDevice->CreateDepthStencilView( depthTexture, &dsvd, &m_DepthStencilView );
-
 
 	m_ImmediateContext->OMSetRenderTargets( 1, &m_RenderTargetView, m_DepthStencilView );
 
@@ -197,12 +187,19 @@ void CRenderer::Init()
 
 	shader_fog = new CFog();
 	shader_fog->Init();
+
+	shader_pop = new CPop();
+	shader_pop->Init();
 	
 
 	// シェーダ設定
 	m_ImmediateContext->VSSetShader( shader_fog->m_VertexShader, NULL, 0 );
 	m_ImmediateContext->PSSetShader( shader_fog->m_PixelShader, NULL, 0 );
-
+	
+	m_ImmediateContext->VSSetShader(shader_pop->m_VertexShader, NULL, 0);
+	m_ImmediateContext->GSSetShader(shader_pop->m_GeometryShader, NULL, 0);
+	m_ImmediateContext->PSSetShader(shader_pop->m_PixelShader, NULL, 0);
+	
 	//m_ImmediateContext->VSSetShader(shader_fog->m_VertexShader, NULL, 0);
 	//m_ImmediateContext->PSSetShader(shader_fog->m_PixelShader, NULL, 0);
 
@@ -219,6 +216,8 @@ void CRenderer::Init()
 
 	shader_lit->SetLight(light);
 
+	shader_pop->SetLight(light);
+
 	//shader_fog->SetLight(light);
 
 
@@ -231,10 +230,9 @@ void CRenderer::Init()
 
 	shader_lit->SetMaterial(material);
 
+	shader_pop->SetMaterial(material);
+
 	//shader_fog->SetMaterial(material);
-
-
-
 
 }
 
