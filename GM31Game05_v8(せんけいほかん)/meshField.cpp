@@ -12,7 +12,7 @@
 
 void CMeshField::Init()
 {
-	shader_lit = (CLit*)CRenderer::GetShader();
+	shader_pop = (CPop*)CRenderer::GetShader();
 	//shader_fog = (CFog*)CRenderer::GetFogShader();
 
 	int Array[TILE_X + 1][TILE_Z + 1] = {};
@@ -186,8 +186,9 @@ void CMeshField::Draw()
 	world = scale * rot * trans;
 
 	//shader
-	shader_lit->SetWorldMatrix(&world);
+	//shader_lit->SetWorldMatrix(&world);
 	//shader_fog->SetWorldMatrix(&world);
+	shader_pop->SetWorldMatrix(&world);
 
 	//頂点バッファ設定
 	UINT stride = sizeof(VERTEX_3D);
@@ -202,8 +203,9 @@ void CMeshField::Draw()
 	ZeroMemory(&material, sizeof(material));
 	material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	//shader
-	shader_lit->SetMaterial(material);
+	//shader_lit->SetMaterial(material);
 	//shader_fog->SetMaterial(material);
+	shader_pop->SetMaterial(material);
 
 	//テクスチャ設定
 	CRenderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);

@@ -21,7 +21,7 @@ struct Attributes
 	float4 position : POSITION0;
 	float3 normal : NORMAL0;
 };
-
+// Vertex Shader Å® Geometry Shader Ç…ìnÇ∑ÇΩÇﬂÇÃç\ë¢ëÃ
 struct GSOutput
 {
 	float4 pos : SV_POSITION;

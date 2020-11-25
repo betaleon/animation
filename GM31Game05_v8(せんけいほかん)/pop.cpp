@@ -109,7 +109,7 @@ void CPop::Init()
 	hBufferDesc.ByteWidth = sizeof(LIGHT);
 	device->CreateBuffer(&hBufferDesc, NULL, &m_LightBuffer);
 
-	UpdateConstantBuffers();
+	//UpdateConstantBuffers();
 
 }
 

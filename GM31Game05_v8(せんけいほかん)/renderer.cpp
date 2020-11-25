@@ -193,16 +193,16 @@ void CRenderer::Init()
 	
 	
 	// シェーダ設定
-	m_ImmediateContext->VSSetShader( shader_fog->m_VertexShader, NULL, 0 );
-	m_ImmediateContext->PSSetShader( shader_fog->m_PixelShader, NULL, 0 );
+	m_ImmediateContext->VSSetShader( shader_lit->m_VertexShader, NULL, 0 );
+	m_ImmediateContext->PSSetShader( shader_lit->m_PixelShader, NULL, 0 );
 	
-	shader_pop->UpdateConstantBuffers();
+	//shader_pop->UpdateConstantBuffers();
 	m_ImmediateContext->VSSetShader(shader_pop->m_VertexShader, NULL, 0);
-	//m_ImmediateContext->GSSetShader(shader_pop->m_GeometryShader, NULL, 0);
+	m_ImmediateContext->GSSetShader(shader_pop->m_GeometryShader, NULL, 0);
 	m_ImmediateContext->PSSetShader(shader_pop->m_PixelShader, NULL, 0);
 	
-	//m_ImmediateContext->VSSetShader(shader_fog->m_VertexShader, NULL, 0);
-	//m_ImmediateContext->PSSetShader(shader_fog->m_PixelShader, NULL, 0);
+	m_ImmediateContext->VSSetShader(shader_fog->m_VertexShader, NULL, 0);
+	m_ImmediateContext->PSSetShader(shader_fog->m_PixelShader, NULL, 0);
 
 
 
@@ -217,7 +217,7 @@ void CRenderer::Init()
 
 	shader_lit->SetLight(light);
 
-	shader_pop->SetLight(light);
+	//shader_pop->SetLight(light);
 
 	//shader_fog->SetLight(light);
 
@@ -229,7 +229,7 @@ void CRenderer::Init()
 	material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	material.Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 
-	shader_lit->SetMaterial(material);
+	//shader_lit->SetMaterial(material);
 
 	shader_pop->SetMaterial(material);
 

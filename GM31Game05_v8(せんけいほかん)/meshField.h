@@ -1,6 +1,7 @@
 #pragma once
 #include "lit.h"
 #include "fog.h"
+#include "pop.h"
 #include "game_object.h"
 #define TILE_WIDTH	10.0f
 #define TILE_HEIGHT 10.0f
@@ -20,6 +21,7 @@ private:
 
 	CLit* shader_lit;
 	CFog* shader_fog;
+	CPop* shader_pop;
 public:
 	void Init();
 	void Uninit();
