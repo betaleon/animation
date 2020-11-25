@@ -191,13 +191,14 @@ void CRenderer::Init()
 	shader_pop = new CPop();
 	shader_pop->Init();
 	
-
+	
 	// シェーダ設定
 	m_ImmediateContext->VSSetShader( shader_fog->m_VertexShader, NULL, 0 );
 	m_ImmediateContext->PSSetShader( shader_fog->m_PixelShader, NULL, 0 );
 	
+	shader_pop->UpdateConstantBuffers();
 	m_ImmediateContext->VSSetShader(shader_pop->m_VertexShader, NULL, 0);
-	m_ImmediateContext->GSSetShader(shader_pop->m_GeometryShader, NULL, 0);
+	//m_ImmediateContext->GSSetShader(shader_pop->m_GeometryShader, NULL, 0);
 	m_ImmediateContext->PSSetShader(shader_pop->m_PixelShader, NULL, 0);
 	
 	//m_ImmediateContext->VSSetShader(shader_fog->m_VertexShader, NULL, 0);

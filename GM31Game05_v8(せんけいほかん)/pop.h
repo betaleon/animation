@@ -27,7 +27,7 @@ public:
 		deviceContext->GSSetConstantBuffers(2, 1, &m_ProjectionBuffer);
 		deviceContext->GSSetConstantBuffers(3, 1, &m_MaterialBuffer);
 		deviceContext->GSSetConstantBuffers(4, 1, &m_LightBuffer);
-
+		
 		deviceContext->PSSetConstantBuffers(0, 1, &m_WorldBuffer);
 		deviceContext->PSSetConstantBuffers(1, 1, &m_ViewBuffer);
 		deviceContext->PSSetConstantBuffers(2, 1, &m_ProjectionBuffer);

@@ -62,13 +62,13 @@ void CPop::Init()
 	{
 		FILE* file;
 		long int fsize;
-
+	
 		file = fopen("pop_GS.cso", "rb");
 		fsize = _filelength(_fileno(file));
 		unsigned char* buffer = new unsigned char[fsize];
 		fread(buffer, fsize, 1, file);
 		fclose(file);
-
+	
 		device->CreateGeometryShader(buffer, fsize, NULL, &m_GeometryShader);
 		
 		delete[] buffer;

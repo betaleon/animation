@@ -48,7 +48,7 @@ Varyings VertexOutput(float3 wpos, half3 wnrm)
 	wvp = mul(wvp, Projection);
 
 	Varyings o;
-	o.position = mul(wpos,wvp);
+	o.position = float4(wpos,1.0f);//mul(wpos,wvp);
 	o.normal = wnrm;
 	return o;
 }

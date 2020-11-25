@@ -1,5 +1,6 @@
 #pragma once
 #include "lit.h"
+#include "fog.h"
 #include "pop.h"
 #include "game_object.h"
 
@@ -17,6 +18,7 @@ private:
 	int m_Frame = 0;
 	float m_BlendRate = 1.0f;
 	CLit* shader_lit;
+	CFog* shader_fog;
 	CPop* shader_pop;
 
 public:
