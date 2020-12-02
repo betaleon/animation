@@ -7,7 +7,6 @@ class CFog : public CShader
 public:
 	void Init() override;
 	void UnInit() override;
-
 	void UpdateConstantBuffers() override
 	{
 		auto deviceContext = CRenderer::GetDeviceContext();

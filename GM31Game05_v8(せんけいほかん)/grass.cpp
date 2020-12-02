@@ -8,7 +8,8 @@
 #define SIZE 3.0f
 void CGrass::Init()
 {
-	shader_lit = (CLit*)CRenderer::GetShader();
+	//shader_instancing = (CInstancing*)CRenderer::GetInstancingShader();
+	//shader_lit = (CLit*)CRenderer::GetShader();
 	VERTEX_3D vertex[4];
 
 	vertex[0].Position = D3DXVECTOR3(-SIZE, SIZE, 0.0f);
@@ -34,10 +35,10 @@ void CGrass::Init()
 	//頂点バッファ生成
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(bd));
-	bd.Usage = D3D11_USAGE_DYNAMIC;				//重要
+	bd.Usage = D3D11_USAGE_DEFAULT;				//重要
 	bd.ByteWidth = sizeof(VERTEX_3D) * 4;
 	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;	//重要
+	bd.CPUAccessFlags = 0;	//重要
 
 	D3D11_SUBRESOURCE_DATA sd;
 	ZeroMemory(&sd, sizeof(sd));
@@ -54,10 +55,53 @@ void CGrass::Init()
 		NULL);
 
 	assert(m_Texture);
+	{
+		D3DXVECTOR3* pos = new D3DXVECTOR3[1000000];
 
-	m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+		int i = 0;
+		for (int x = 0; x < 1000; x++)
+		{
+			for (int z = 0; z < 1000; z++)
+			{
+				pos[i] = D3DXVECTOR3(x, 0.0f, z);
+				i++;
+			}
+		}
+
+		//ストラクチャバッファ生成
+		D3D11_BUFFER_DESC bd;
+		ZeroMemory(&bd, sizeof(bd));
+		bd.Usage = D3D11_USAGE_DEFAULT;				//重要
+		bd.ByteWidth = sizeof(D3DXVECTOR3) * 1000000;
+		bd.StructureByteStride = sizeof(D3DXVECTOR3);
+		bd.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+		bd.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+
+		D3D11_SUBRESOURCE_DATA sd;
+		ZeroMemory(&sd, sizeof(sd));
+		sd.pSysMem = pos;
+
+		CRenderer::GetDevice()->CreateBuffer(&bd, &sd, &m_PositionBuffer);
+
+		delete[] pos;
+
+		//シェーダーリソースビュー生成
+		D3D11_SHADER_RESOURCE_VIEW_DESC srvd;
+		ZeroMemory(&srvd, sizeof(srvd));
+		srvd.Format = DXGI_FORMAT_UNKNOWN;
+		srvd.ViewDimension = D3D11_SRV_DIMENSION_BUFFER;
+		srvd.Buffer.FirstElement = 0;
+		srvd.Buffer.NumElements = 1000000;
+
+		CRenderer::GetDevice()->CreateShaderResourceView(m_PositionBuffer, &srvd, &m_PositionSRV);
+
+	}
+
+	
+	//m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	//m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	//m_Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	//
 
 }
 
@@ -66,6 +110,8 @@ void CGrass::Uninit()
 
 	m_VertexBuffer->Release();
 	m_Texture->Release();
+
+	m_PositionBuffer->Release();
 
 }
 
@@ -105,21 +151,24 @@ void CGrass::Draw()
 
 	//CRenderer::GetDeviceContext()->Unmap(m_VertexBuffer, 0);
 
-	CCamera* camera = CManager::GetScene()->GetGameObject<CCamera>(0);
-	//以下ビルボード設定
-	D3DXMATRIX view = camera->GetViewMatrix();
-	D3DXMATRIX invView;
-	D3DXMatrixInverse(&invView, NULL, &view);//逆行列
-	invView._41 = 0.0f;
-	invView._42 = 0.0f;
-	invView._43 = 0.0f;
+	//CCamera* camera = CManager::GetScene()->GetGameObject<CCamera>(0);
+	////以下ビルボード設定
+	//D3DXMATRIX view = camera->GetViewMatrix();
+	//D3DXMATRIX invView;
+	//D3DXMatrixInverse(&invView, NULL, &view);//逆行列
+	//invView._41 = 0.0f;
+	//invView._42 = 0.0f;
+	//invView._43 = 0.0f;
 
 	//マトリクス設定
 	D3DXMATRIX world, scale, rot, trans;
 	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
+	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
-	world = scale * invView * trans;
-	shader_lit->SetWorldMatrix(&world);
+	//world = scale * invView * trans;
+	world = scale * rot * trans;
+	//shader_instancing->SetWorldMatrix(&world);
+	
 
 	//頂点バッファ設定
 	UINT stride = sizeof(VERTEX_3D);
@@ -130,15 +179,17 @@ void CGrass::Draw()
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(material));
 	material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	shader_lit->SetMaterial(material);
+	//shader_instancing->SetMaterial(material);
 
 	//テクスチャ設定
 	CRenderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);
 
+	//ストラクチャードバッファ設定
+	CRenderer::GetDeviceContext()->VSSetShaderResources(2, 1, &m_PositionSRV);
+
 	//プリミティブトポロジ型
 	CRenderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
-
 	//ポリゴン描画
-	CRenderer::GetDeviceContext()->Draw(4, 0);
-
+	//CRenderer::GetDeviceContext()->Draw(4, 0);
+	CRenderer::GetDeviceContext()->DrawInstanced(4, 10000, 0, 0);
 }

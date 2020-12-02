@@ -78,6 +78,7 @@ private:
 	static CShader* shader_lit;
 	static CShader* shader_fog;
 	static CShader* shader_pop;
+	static CShader* shader_instancing;
 
 
 public:
@@ -98,6 +99,9 @@ public:
 	}
 	static CShader* GetPopShader() {
 		return shader_pop;
+	}
+	static CShader* GetInstancingShader() {
+		return shader_instancing;
 	}
 
 };

@@ -5,6 +5,7 @@
 #include "lit.h"
 #include "fog.h"
 #include "pop.h"
+#include "instancing.h"
 
 
 D3D_FEATURE_LEVEL       CRenderer::m_FeatureLevel = D3D_FEATURE_LEVEL_11_0;
@@ -22,6 +23,7 @@ ID3D11DepthStencilState* CRenderer::m_DepthStateDisable = NULL;
 CShader* CRenderer::shader_lit;
 CShader* CRenderer::shader_fog;
 CShader* CRenderer::shader_pop;
+CShader* CRenderer::shader_instancing;
 
 //std::vector<std::shared_ptr<CShader>> CRenderer::m_shaders = std::vector<std::shared_ptr<Shader>>();
 //std::vector<std::shared_ptr<ComputeShader>> CRenderer::m_computeShaders = std::vector<std::shared_ptr<ComputeShader>>();
@@ -190,6 +192,9 @@ void CRenderer::Init()
 
 	shader_pop = new CPop();
 	shader_pop->Init();
+
+	//shader_instancing = new CInstancing();
+	//shader_instancing->Init();
 	
 	
 	// シェーダ設定
@@ -204,7 +209,9 @@ void CRenderer::Init()
 	m_ImmediateContext->VSSetShader(shader_fog->m_VertexShader, NULL, 0);
 	m_ImmediateContext->PSSetShader(shader_fog->m_PixelShader, NULL, 0);
 
-
+	//shader_instancing->UpdateConstantBuffers();
+	//m_ImmediateContext->VSSetShader(shader_instancing->m_VertexShader, NULL, 0);
+	//m_ImmediateContext->PSSetShader(shader_instancing->m_PixelShader, NULL, 0);
 
 
 	// ライト無効化
@@ -221,6 +228,7 @@ void CRenderer::Init()
 
 	//shader_fog->SetLight(light);
 
+	//shader_instancing->SetLight(light);
 
 
 	// マテリアル初期化
@@ -234,6 +242,8 @@ void CRenderer::Init()
 	shader_pop->SetMaterial(material);
 
 	//shader_fog->SetMaterial(material);
+
+	//shader_instancing->SetMaterial(material);
 
 }
 

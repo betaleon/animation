@@ -108,6 +108,9 @@
     <ClCompile Include="pop.cpp">
       <Filter>Resource Files\Shader\cpp</Filter>
     </ClCompile>
+    <ClCompile Include="instancing.cpp">
+      <Filter>Resource Files\Shader\cpp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -203,6 +206,9 @@
     <ClInclude Include="pop.h">
       <Filter>Resource Files\Shader\header</Filter>
     </ClInclude>
+    <ClInclude Include="instancing.h">
+      <Filter>Resource Files\Shader\header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="pixelShader.hlsl">
@@ -224,6 +230,12 @@
       <Filter>Resource Files\Shader\hlsl</Filter>
     </FxCompile>
     <FxCompile Include="pop_VS.hlsl">
+      <Filter>Resource Files\Shader\hlsl</Filter>
+    </FxCompile>
+    <FxCompile Include="instancing_VS.hlsl">
+      <Filter>Resource Files\Shader\hlsl</Filter>
+    </FxCompile>
+    <FxCompile Include="instancing_PS.hlsl">
       <Filter>Resource Files\Shader\hlsl</Filter>
     </FxCompile>
   </ItemGroup>

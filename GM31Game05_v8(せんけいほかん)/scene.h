@@ -42,12 +42,15 @@ public:
 		AddGameObject<CEnemy>(1)->SetPosition(D3DXVECTOR3(-5.0f, 2.0f, 5.0f));
 		AddGameObject<CEnemy>(1)->SetPosition(D3DXVECTOR3(0.0f, 2.0f, 5.0f));
 		AddGameObject<CEnemy>(1)->SetPosition(D3DXVECTOR3(5.0f, 2.0f, 5.0f));
-		for (int i = 0; i < 50; i++)
-		{
-			AddGameObject<CGrass>(1)->SetPosition(D3DXVECTOR3(rand() % 500 - 300.0f, 
-																2.0f,
-																rand() % 500 - 300.0f));
-		}
+
+		AddGameObject<CGrass>(1);// ->SetPosition(D3DXVECTOR3(0, 0, 0));
+		//for (int z = 0; z < 100; z++)
+		//{
+		//	for (int x = 0; x < 100; x++)
+		//	{
+		//		AddGameObject<CGrass>(1)->SetPosition(D3DXVECTOR3(x, 0, z));
+		//	}
+		//}
 		
 
 	}
