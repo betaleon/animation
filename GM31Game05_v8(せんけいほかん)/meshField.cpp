@@ -12,8 +12,8 @@
 
 void CMeshField::Init()
 {
-	shader_pop = (CPop*)CRenderer::GetShader();
-	//shader_fog = (CFog*)CRenderer::GetFogShader();
+	//shader_pop = (CPop*)CRenderer::GetShader();
+	shader_fog = CRenderer::GetShader<CFog>();
 
 	int Array[TILE_X + 1][TILE_Z + 1] = {};
 	DiamondSquare(Array, TILE_X);
@@ -187,8 +187,8 @@ void CMeshField::Draw()
 
 	//shader
 	//shader_lit->SetWorldMatrix(&world);
-	//shader_fog->SetWorldMatrix(&world);
-	shader_pop->SetWorldMatrix(&world);
+	shader_fog->SetWorldMatrix(&world);
+	//shader_pop->SetWorldMatrix(&world);
 
 	//頂点バッファ設定
 	UINT stride = sizeof(VERTEX_3D);
@@ -204,19 +204,21 @@ void CMeshField::Draw()
 	material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	//shader
 	//shader_lit->SetMaterial(material);
-	//shader_fog->SetMaterial(material);
-	shader_pop->SetMaterial(material);
+	shader_fog->SetMaterial(material);
+	//shader_pop->SetMaterial(material);
 
 	//テクスチャ設定
 	CRenderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);
 
 	//プリミティブトポロジ型
 	CRenderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+	
+	//SetShader
+	CRenderer::SetShader(shader_fog);
 
 	//ポリゴン描画
 	//CRenderer::GetDeviceContext()->DrawIndexed((4 + ((TILE_X - 1) * 2)*TILE_Z + 2 * (TILE_Z - 1)), 0, 0);
 	CRenderer::GetDeviceContext()->DrawIndexed(((TILE_X + 2) * 2) * TILE_Z - 2, 0, 0);
-
 }
 
 float CMeshField::GetHeight(D3DXVECTOR3 Position)

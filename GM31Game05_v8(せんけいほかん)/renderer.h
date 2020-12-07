@@ -1,8 +1,8 @@
 #pragma once
+#include <vector>
+#include <typeinfo>
 
 class CShader;
-
-
 
 // í∏ì_ç\ë¢ëÃ
 struct VERTEX_3D
@@ -59,7 +59,6 @@ class CVertexBuffer;
 class CIndexBuffer;
 class CTexture;
 
-
 class CRenderer
 {
 private:
@@ -75,10 +74,7 @@ private:
 	static ID3D11DepthStencilState* m_DepthStateEnable;
 	static ID3D11DepthStencilState* m_DepthStateDisable;
 
-	static CShader* shader_lit;
-	static CShader* shader_fog;
-	static CShader* shader_pop;
-	static CShader* shader_instancing;
+	static std::vector<CShader*> m_shaders;
 
 
 public:
@@ -88,20 +84,24 @@ public:
 	static void End();
 
 	static void SetDepthEnable(bool Enable);
+	static void SetShader(CShader* shader);
 
 	static ID3D11Device* GetDevice( void ){ return m_D3DDevice; }
 	static ID3D11DeviceContext* GetDeviceContext( void ){ return m_ImmediateContext; }
-	static CShader* GetShader() { 
-		return shader_lit; 
-	}
-	static CShader* GetFogShader() {
-		return shader_fog;
-	}
-	static CShader* GetPopShader() {
-		return shader_pop;
-	}
-	static CShader* GetInstancingShader() {
-		return shader_instancing;
+
+	template <typename T>
+	static T* GetShader()
+	{
+		for (auto shader : m_shaders)
+		{
+			if (typeid(*shader) == typeid(T))
+			{
+				return static_cast<T*> (shader);
+			}
+		}
+
+		return nullptr;
 	}
 
+	static std::vector<CShader*> GetShaders() { return m_shaders; }
 };

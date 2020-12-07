@@ -4,10 +4,13 @@
 
 class CPop : public CShader
 {
+private:
+	ID3D11Buffer*			m_GS_WorldBuffer = NULL;
+	ID3D11Buffer*			m_GS_ViewBuffer = NULL;
+	ID3D11Buffer*			m_GS_ProjectionBuffer = NULL;
 public:
 	void Init() override;
 	void UnInit() override;
-
 	void UpdateConstantBuffers() override
 	{
 		auto deviceContext = CRenderer::GetDeviceContext();
@@ -22,17 +25,11 @@ public:
 		deviceContext->VSSetConstantBuffers(3, 1, &m_MaterialBuffer);
 		deviceContext->VSSetConstantBuffers(4, 1, &m_LightBuffer);
 
-		deviceContext->GSSetConstantBuffers(0, 1, &m_WorldBuffer);
-		deviceContext->GSSetConstantBuffers(1, 1, &m_ViewBuffer);
-		deviceContext->GSSetConstantBuffers(2, 1, &m_ProjectionBuffer);
-		deviceContext->GSSetConstantBuffers(3, 1, &m_MaterialBuffer);
-		deviceContext->GSSetConstantBuffers(4, 1, &m_LightBuffer);
+		deviceContext->GSSetConstantBuffers(0, 1, &m_GS_WorldBuffer);
+		deviceContext->GSSetConstantBuffers(1, 1, &m_GS_ViewBuffer);
+		deviceContext->GSSetConstantBuffers(2, 1, &m_GS_ProjectionBuffer);
+
 		
-		deviceContext->PSSetConstantBuffers(0, 1, &m_WorldBuffer);
-		deviceContext->PSSetConstantBuffers(1, 1, &m_ViewBuffer);
-		deviceContext->PSSetConstantBuffers(2, 1, &m_ProjectionBuffer);
-		deviceContext->PSSetConstantBuffers(3, 1, &m_MaterialBuffer);
-		deviceContext->PSSetConstantBuffers(4, 1, &m_LightBuffer);
 
 	}
 
@@ -41,6 +38,7 @@ public:
 		D3DXMATRIX world;
 		D3DXMatrixTranspose(&world, WorldMatrix);
 		CRenderer::GetDeviceContext()->UpdateSubresource(m_WorldBuffer, 0, NULL, &world, 0, 0);
+		CRenderer::GetDeviceContext()->UpdateSubresource(m_GS_WorldBuffer, 0, NULL, &world, 0, 0);
 	}
 
 	void SetViewMatrix(D3DXMATRIX *ViewMatrix) override
@@ -48,6 +46,7 @@ public:
 		D3DXMATRIX view = *ViewMatrix;
 		D3DXMatrixTranspose(&view, ViewMatrix);
 		CRenderer::GetDeviceContext()->UpdateSubresource(m_ViewBuffer, 0, NULL, &view, 0, 0);
+		CRenderer::GetDeviceContext()->UpdateSubresource(m_GS_ViewBuffer, 0, NULL, &view, 0, 0);
 	}
 
 	void SetProjectionMatrix(D3DXMATRIX *ProjectionMatrix) override
@@ -55,6 +54,7 @@ public:
 		D3DXMATRIX projection = *ProjectionMatrix;
 		D3DXMatrixTranspose(&projection, ProjectionMatrix);
 		CRenderer::GetDeviceContext()->UpdateSubresource(m_ProjectionBuffer, 0, NULL, &projection, 0, 0);
+		CRenderer::GetDeviceContext()->UpdateSubresource(m_GS_ProjectionBuffer, 0, NULL, &projection, 0, 0);
 	}
 
 	void SetMaterial(MATERIAL Material) override

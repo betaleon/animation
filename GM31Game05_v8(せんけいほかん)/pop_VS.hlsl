@@ -44,8 +44,10 @@ struct LIGHT
 
 struct Attributes
 {
-	float4 position : POSITION0;
+	float4 position : SV_POSITION;
 	float3 normal : NORMAL0;
+	//float4 diffuse : COLOR0;
+	//float2 texCoord : TEXCOORD0;
 };
 
 

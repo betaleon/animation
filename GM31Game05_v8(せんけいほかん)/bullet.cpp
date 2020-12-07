@@ -27,7 +27,7 @@ void CBullet::Init()
 	m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Scale = D3DXVECTOR3(0.2f, 0.2f, 0.2f);
 
-	shader_lit = (CLit*)CRenderer::GetShader();
+	shader_lit = CRenderer::GetShader<CLit>();
 }
 
 void CBullet::Uninit()
@@ -76,6 +76,8 @@ void CBullet::Draw()
 	world = scale * rot * trans;
 
 	shader_lit->SetWorldMatrix(&world);
+
+	CRenderer::SetShader(shader_lit);
 
 	m_Model->Draw();
 }

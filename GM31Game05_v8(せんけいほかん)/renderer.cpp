@@ -20,12 +20,7 @@ ID3D11DepthStencilView* CRenderer::m_DepthStencilView = NULL;
 ID3D11DepthStencilState* CRenderer::m_DepthStateEnable = NULL;
 ID3D11DepthStencilState* CRenderer::m_DepthStateDisable = NULL;
 
-CShader* CRenderer::shader_lit;
-CShader* CRenderer::shader_fog;
-CShader* CRenderer::shader_pop;
-CShader* CRenderer::shader_instancing;
-
-//std::vector<std::shared_ptr<CShader>> CRenderer::m_shaders = std::vector<std::shared_ptr<Shader>>();
+std::vector<CShader*> CRenderer::m_shaders = std::vector<CShader*>();
 //std::vector<std::shared_ptr<ComputeShader>> CRenderer::m_computeShaders = std::vector<std::shared_ptr<ComputeShader>>();
 //
 //std::weak_ptr<Shader> CRenderer::m_activeShader;
@@ -184,35 +179,17 @@ void CRenderer::Init()
 
 	m_ImmediateContext->PSSetSamplers( 0, 1, &samplerState );
 
-	shader_lit = new CLit();
-	shader_lit->Init();
+	m_shaders.push_back(new CLit());
+	m_shaders.back()->Init();
 
-	shader_fog = new CFog();
-	shader_fog->Init();
-
-	shader_pop = new CPop();
-	shader_pop->Init();
-
-	//shader_instancing = new CInstancing();
-	//shader_instancing->Init();
+	m_shaders.push_back(new CFog());
+	m_shaders.back()->Init();
 	
-	
-	// シェーダ設定
-	m_ImmediateContext->VSSetShader( shader_lit->m_VertexShader, NULL, 0 );
-	m_ImmediateContext->PSSetShader( shader_lit->m_PixelShader, NULL, 0 );
-	
-	//shader_pop->UpdateConstantBuffers();
-	m_ImmediateContext->VSSetShader(shader_pop->m_VertexShader, NULL, 0);
-	m_ImmediateContext->GSSetShader(shader_pop->m_GeometryShader, NULL, 0);
-	m_ImmediateContext->PSSetShader(shader_pop->m_PixelShader, NULL, 0);
-	
-	m_ImmediateContext->VSSetShader(shader_fog->m_VertexShader, NULL, 0);
-	m_ImmediateContext->PSSetShader(shader_fog->m_PixelShader, NULL, 0);
+	m_shaders.push_back(new CPop());
+	m_shaders.back()->Init();
 
-	//shader_instancing->UpdateConstantBuffers();
-	//m_ImmediateContext->VSSetShader(shader_instancing->m_VertexShader, NULL, 0);
-	//m_ImmediateContext->PSSetShader(shader_instancing->m_PixelShader, NULL, 0);
-
+	m_shaders.push_back(new CInstancing());
+	m_shaders.back()->Init();
 
 	// ライト無効化
 	LIGHT light;
@@ -222,7 +199,7 @@ void CRenderer::Init()
 	light.Ambient = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f);
 	light.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 
-	shader_lit->SetLight(light);
+	//shader_lit->SetLight(light);
 
 	//shader_pop->SetLight(light);
 
@@ -239,7 +216,7 @@ void CRenderer::Init()
 
 	//shader_lit->SetMaterial(material);
 
-	shader_pop->SetMaterial(material);
+	//shader_pop->SetMaterial(material);
 
 	//shader_fog->SetMaterial(material);
 
@@ -273,13 +250,10 @@ void CRenderer::Begin()
 }
 
 
-
 void CRenderer::End()
 {
 	m_SwapChain->Present( 1, 0 );
 }
-
-
 
 
 void CRenderer::SetDepthEnable( bool Enable )
@@ -289,4 +263,13 @@ void CRenderer::SetDepthEnable( bool Enable )
 	else
 		m_ImmediateContext->OMSetDepthStencilState( m_DepthStateDisable, NULL );
 
+}
+
+
+void CRenderer::SetShader(CShader* shader)
+{
+	m_ImmediateContext->VSSetShader(shader->m_VertexShader, NULL, 0);
+	m_ImmediateContext->PSSetShader(shader->m_PixelShader, NULL, 0);
+
+	shader->UpdateConstantBuffers();
 }

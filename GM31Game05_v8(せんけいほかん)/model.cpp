@@ -47,7 +47,7 @@ void CModel::Load( const char *FileName )
 	MODEL model;
 	LoadObj( FileName, &model );
 
-	shader_lit = (CLit*)CRenderer::GetShader();
+	shader_lit = CRenderer::GetShader<CLit>();
 
 	// 頂点バッファ生成
 	{

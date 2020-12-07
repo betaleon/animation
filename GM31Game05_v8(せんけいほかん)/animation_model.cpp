@@ -12,7 +12,7 @@ void CAnimationModel::Draw()
 	ZeroMemory(&material, sizeof(material));
 	material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	material.Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	shader_lit->SetMaterial(material);
+	//shader_pop->SetMaterial(material);
 	//CRenderer::SetMaterial(material);
 
 	for (unsigned int m = 0; m < m_Scene->mNumMeshes; m++)
@@ -34,6 +34,9 @@ void CAnimationModel::Draw()
 		//インデックスバッファ設定
 		CRenderer::GetDeviceContext()->IASetIndexBuffer(m_IndexBuffer[m], DXGI_FORMAT_R32_UINT, 0);
 
+		//SetShader
+		//CRenderer::SetShader(shader_lit);
+
 		//ポリゴン描画
 		CRenderer::GetDeviceContext()->DrawIndexed(mesh->mNumFaces * 3, 0, 0);
 	}
@@ -42,7 +45,7 @@ void CAnimationModel::Draw()
 
 void CAnimationModel::Load(const char *FileName)
 {
-	shader_lit = (CLit*)CRenderer::GetShader();
+	//shader_lit = CRenderer::GetShader<CLit>();
 	const std::string modelPath(FileName);
 
 	m_Scene = aiImportFile(FileName,

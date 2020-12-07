@@ -5,7 +5,7 @@
 
 void CField::Init()
 {
-	shader_lit = (CLit*)CRenderer::GetShader();
+	shader_lit = CRenderer::GetShader<CLit>();
 	VERTEX_3D vertex[4];
 
 	vertex[0].Position	= D3DXVECTOR3(-10.0f, 0.0f, 10.0f);

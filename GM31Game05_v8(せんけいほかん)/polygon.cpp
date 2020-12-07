@@ -13,7 +13,7 @@
 
 void CPolygon::Init()
 {
-	shader_lit = (CLit*)CRenderer::GetShader();
+	shader_lit = CRenderer::GetShader<CLit>();
 	VERTEX_3D vertex[4];
 
 	vertex[0].Position = D3DXVECTOR3(BASE_X - SCALE_X/2+POSITION_X, BASE_Y - SCALE_Y/2+ POSITION_Y, 0.0f);

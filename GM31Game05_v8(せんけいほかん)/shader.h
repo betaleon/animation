@@ -7,7 +7,6 @@ class CShader
 protected:
 	ID3D11VertexShader*     m_VertexShader = NULL;
 	ID3D11PixelShader*      m_PixelShader = NULL;
-	ID3D11GeometryShader*	m_GeometryShader = NULL;
 	ID3D11InputLayout*      m_VertexLayout = NULL;
 	ID3D11Buffer*			m_WorldBuffer = NULL;
 	ID3D11Buffer*			m_ViewBuffer = NULL;
@@ -17,6 +16,7 @@ protected:
 
 	friend class CRenderer;
 public:
+	ID3D11GeometryShader*	m_GeometryShader = NULL;
 	virtual void Init() {}
 	virtual void UnInit() {
 		if (m_WorldBuffer) m_WorldBuffer->Release();

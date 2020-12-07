@@ -14,8 +14,8 @@ void CPlayer ::Init()
 	m_AnimationModel = new CAnimationModel();
 	//m_AnimationModel->Load("asset\\model\\Akai_Idle.fbx");
 	//m_AnimationModel->LoadAnimation("asset\\model\\Akai_Idle.fbx","Idle");
-
-	shader_lit = (CLit*)CRenderer::GetShader();
+	shader_pop = CRenderer::GetShader<CPop>();
+	//shader_lit = CRenderer::GetShader<CLit>();
 	//shader_pop = (CPop*)CRenderer::GetShader();
 
 	m_AnimationModel->Load("asset\\model\\Reaction.fbx");
@@ -26,7 +26,7 @@ void CPlayer ::Init()
 	m_AnimationModel->LoadAnimation("asset\\model\\Cat.fbx", "Cat");
 
 
-	m_Position = D3DXVECTOR3(0.0f, 2.0f, -3.0f);
+	m_Position = D3DXVECTOR3(0.0f, 2.0f,-3.0f);
 	m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Scale = D3DXVECTOR3(0.01f, 0.01f, 0.01f);
 
@@ -117,9 +117,11 @@ void CPlayer::Draw()
 	//world = scale * rot * trans;
 	world = rot * scale * trans ;
 
-	shader_lit->SetWorldMatrix(&world);
+	//shader_lit->SetWorldMatrix(&world);
 	//shader_fog->SetWorldMatrix(&world);
-
+	shader_pop->SetWorldMatrix(&world);
+	//CRenderer::GetDeviceContext()->GSSetShader(shader_pop->m_GeometryShader, NULL, 0);
+	CRenderer::SetShader(shader_pop);
 	//m_Model->Draw();
 	m_AnimationModel->Draw();
 }

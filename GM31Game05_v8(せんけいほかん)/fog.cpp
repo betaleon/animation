@@ -73,7 +73,7 @@ void CFog::Init()
 
 		device->CreatePixelShader(buffer, fsize, NULL, &m_PixelShader);
 
-		//delete[] buffer;
+		delete[] buffer;
 	}
 
 	// 定数バッファ生成
@@ -95,7 +95,7 @@ void CFog::Init()
 	hBufferDesc.ByteWidth = sizeof(LIGHT);
 	device->CreateBuffer(&hBufferDesc, NULL, &m_LightBuffer);
 
-	//UpdateConstantBuffers();
+	UpdateConstantBuffers();
 }
 
 void CFog::UnInit()

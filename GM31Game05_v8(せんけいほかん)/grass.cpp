@@ -8,7 +8,7 @@
 #define SIZE 3.0f
 void CGrass::Init()
 {
-	//shader_instancing = (CInstancing*)CRenderer::GetInstancingShader();
+	shader_instancing =CRenderer::GetShader<CInstancing>();
 	//shader_lit = (CLit*)CRenderer::GetShader();
 	VERTEX_3D vertex[4];
 
@@ -56,14 +56,16 @@ void CGrass::Init()
 
 	assert(m_Texture);
 	{
+		CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
+
 		D3DXVECTOR3* pos = new D3DXVECTOR3[1000000];
 
 		int i = 0;
-		for (int x = 0; x < 1000; x++)
+		for (int x = 1000; x > 0; x--)
 		{
-			for (int z = 0; z < 1000; z++)
+			for (int z = 1000; z > 0; z--)
 			{
-				pos[i] = D3DXVECTOR3(x, 0.0f, z);
+				pos[i] = D3DXVECTOR3(5*x,0, 5*z);
 				i++;
 			}
 		}
@@ -98,10 +100,9 @@ void CGrass::Init()
 	}
 
 	
-	//m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	//m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	//m_Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-	//
+	m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 
 }
 
@@ -125,32 +126,7 @@ void CGrass::Update()
 void CGrass::Draw()
 {
 	D3D11_MAPPED_SUBRESOURCE msr;
-	//CRenderer::GetDeviceContext()->Map(m_VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
-
-	//VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
-
-	//vertex[0].Position = D3DXVECTOR3(-SIZE, SIZE, 0.0f);
-	//vertex[0].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	//vertex[0].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	//vertex[0].TexCoord = D3DXVECTOR2(0.0f, 0.0f);
-	//
-	//vertex[1].Position = D3DXVECTOR3(SIZE, SIZE, 0.0f);
-	//vertex[1].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	//vertex[1].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	//vertex[1].TexCoord = D3DXVECTOR2(1.0f , 0.0f);
-	//
-	//vertex[2].Position = D3DXVECTOR3(-SIZE, -SIZE, 0.0f);
-	//vertex[2].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	//vertex[2].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	//vertex[2].TexCoord = D3DXVECTOR2(0.0f, 1.0f);
-	//
-	//vertex[3].Position = D3DXVECTOR3(SIZE, -SIZE, 0.0f);
-	//vertex[3].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	//vertex[3].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	//vertex[3].TexCoord = D3DXVECTOR2(1.0f, 1.0f);
-
-	//CRenderer::GetDeviceContext()->Unmap(m_VertexBuffer, 0);
-
+   
 	//CCamera* camera = CManager::GetScene()->GetGameObject<CCamera>(0);
 	////以下ビルボード設定
 	//D3DXMATRIX view = camera->GetViewMatrix();
@@ -167,8 +143,8 @@ void CGrass::Draw()
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
 	//world = scale * invView * trans;
 	world = scale * rot * trans;
-	//shader_instancing->SetWorldMatrix(&world);
-	
+	shader_instancing->SetWorldMatrix(&world);
+
 
 	//頂点バッファ設定
 	UINT stride = sizeof(VERTEX_3D);
@@ -179,7 +155,7 @@ void CGrass::Draw()
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(material));
 	material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	//shader_instancing->SetMaterial(material);
+	shader_instancing->SetMaterial(material);
 
 	//テクスチャ設定
 	CRenderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);
@@ -189,7 +165,11 @@ void CGrass::Draw()
 
 	//プリミティブトポロジ型
 	CRenderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+
+	//SetShader
+	CRenderer::SetShader(shader_instancing);
+
 	//ポリゴン描画
 	//CRenderer::GetDeviceContext()->Draw(4, 0);
-	CRenderer::GetDeviceContext()->DrawInstanced(4, 10000, 0, 0);
+	CRenderer::GetDeviceContext()->DrawInstanced(4, 1000000, 0, 0);
 }

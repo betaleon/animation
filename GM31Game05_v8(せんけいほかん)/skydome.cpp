@@ -15,7 +15,7 @@ void CSkydome::Init()
 	m_Rotation = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	m_Scale = D3DXVECTOR3(200.0f, 200.0f, 200.0f);
 
-	shader_lit = (CLit*)CRenderer::GetShader();
+	shader_lit = CRenderer::GetShader<CLit>();
 }
 
 void CSkydome::Uninit()

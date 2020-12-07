@@ -18,14 +18,18 @@ cbuffer ProjectionBuffer : register(b2)
 
 struct Attributes
 {
-	float4 position : POSITION0;
+	float4 position : SV_POSITION;
 	float3 normal : NORMAL0;
+	//float4 diffuse : COLOR0;
+	//float2 texCoord : TEXCOORD0;
 };
 // Vertex Shader → Geometry Shader に渡すための構造体
 struct GSOutput
 {
 	float4 pos : SV_POSITION;
-	float4 color : COLOR0;
+	float3 normal : NORMAL0;
+	//float4 color : COLOR0;
+	//float2 texCoord : TEXCOORD0;
 };
 
 static const float4 trianglePos[3] = {
@@ -38,6 +42,8 @@ struct Varyings
 {
 	float4 position : SV_POSITION;
 	float3 normal : NORMAL;
+	//float4 diffuse : COLOR0;
+	//float2 texCoord : TEXCOORD0;
 };
 
 // Geometry Shaderの出力用の構造体を用意するための関数

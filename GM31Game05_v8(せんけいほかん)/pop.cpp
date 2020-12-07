@@ -62,13 +62,13 @@ void CPop::Init()
 	{
 		FILE* file;
 		long int fsize;
-	
+		
 		file = fopen("pop_GS.cso", "rb");
 		fsize = _filelength(_fileno(file));
 		unsigned char* buffer = new unsigned char[fsize];
 		fread(buffer, fsize, 1, file);
 		fclose(file);
-	
+		
 		device->CreateGeometryShader(buffer, fsize, NULL, &m_GeometryShader);
 		
 		delete[] buffer;
@@ -87,7 +87,7 @@ void CPop::Init()
 
 		device->CreatePixelShader(buffer, fsize, NULL, &m_PixelShader);
 
-		//delete[] buffer;
+		delete[] buffer;
 	}
 
 	// 定数バッファ生成
@@ -103,11 +103,17 @@ void CPop::Init()
 	device->CreateBuffer(&hBufferDesc, NULL, &m_ViewBuffer);
 	device->CreateBuffer(&hBufferDesc, NULL, &m_ProjectionBuffer);
 
+	device->CreateBuffer(&hBufferDesc, NULL, &m_GS_WorldBuffer);
+	device->CreateBuffer(&hBufferDesc, NULL, &m_GS_ViewBuffer);
+	device->CreateBuffer(&hBufferDesc, NULL, &m_GS_ProjectionBuffer);
+
 	hBufferDesc.ByteWidth = sizeof(MATERIAL);
 	device->CreateBuffer(&hBufferDesc, NULL, &m_MaterialBuffer);
 
 	hBufferDesc.ByteWidth = sizeof(LIGHT);
 	device->CreateBuffer(&hBufferDesc, NULL, &m_LightBuffer);
+
+
 
 	//UpdateConstantBuffers();
 
