@@ -6,9 +6,11 @@
 #include "camera.h"
 
 #define SIZE 3.0f
+#define GRASS_MOUNT 1000
+
 void CGrass::Init()
 {
-	shader_instancing =CRenderer::GetShader<CInstancing>();
+	shader_instancing = CRenderer::GetShader<CInstancing>();
 	//shader_lit = (CLit*)CRenderer::GetShader();
 	VERTEX_3D vertex[4];
 
@@ -58,14 +60,15 @@ void CGrass::Init()
 	{
 		CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
 
-		D3DXVECTOR3* pos = new D3DXVECTOR3[1000000];
+		D3DXVECTOR3* pos = new D3DXVECTOR3[GRASS_MOUNT];
 
 		int i = 0;
-		for (int x = 1000; x > 0; x--)
+		for (int x = sqrt(GRASS_MOUNT) / 2 ; x > -sqrt(GRASS_MOUNT)/2; x--)
 		{
-			for (int z = 1000; z > 0; z--)
+			for (int z = sqrt(GRASS_MOUNT) / 2; z > -sqrt(GRASS_MOUNT) / 2; z--)
 			{
-				pos[i] = D3DXVECTOR3(5*x,0, 5*z);
+				pos[i] = D3DXVECTOR3(3 * x , 0, 3* z);
+				pos[i].y = meshField->GetHeight(pos[i]);	//+ SIZE / 2.0f;
 				i++;
 			}
 		}
@@ -74,7 +77,7 @@ void CGrass::Init()
 		D3D11_BUFFER_DESC bd;
 		ZeroMemory(&bd, sizeof(bd));
 		bd.Usage = D3D11_USAGE_DEFAULT;				//d—v
-		bd.ByteWidth = sizeof(D3DXVECTOR3) * 1000000;
+		bd.ByteWidth = sizeof(D3DXVECTOR3) * GRASS_MOUNT;
 		bd.StructureByteStride = sizeof(D3DXVECTOR3);
 		bd.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 		bd.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
@@ -93,7 +96,7 @@ void CGrass::Init()
 		srvd.Format = DXGI_FORMAT_UNKNOWN;
 		srvd.ViewDimension = D3D11_SRV_DIMENSION_BUFFER;
 		srvd.Buffer.FirstElement = 0;
-		srvd.Buffer.NumElements = 1000000;
+		srvd.Buffer.NumElements = GRASS_MOUNT;
 
 		CRenderer::GetDevice()->CreateShaderResourceView(m_PositionBuffer, &srvd, &m_PositionSRV);
 
@@ -118,9 +121,7 @@ void CGrass::Uninit()
 
 void CGrass::Update()
 {
-	CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
-
-	m_Position.y = meshField->GetHeight(m_Position) + SIZE/2.0f;
+	//CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
 }
 
 void CGrass::Draw()
@@ -171,5 +172,7 @@ void CGrass::Draw()
 
 	//ƒ|ƒŠƒSƒ“•`‰æ
 	//CRenderer::GetDeviceContext()->Draw(4, 0);
-	CRenderer::GetDeviceContext()->DrawInstanced(4, 1000000, 0, 0);
+	CRenderer::SetDepthEnable(false);
+	CRenderer::GetDeviceContext()->DrawInstanced(4, GRASS_MOUNT, 0, 0);
+	CRenderer::SetDepthEnable(true);
 }
