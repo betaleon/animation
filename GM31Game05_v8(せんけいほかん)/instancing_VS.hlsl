@@ -64,7 +64,8 @@ void main( in  float4 inPosition		: POSITION0,
 						  out float4 outPosition	: SV_POSITION,
 						  out float4 outNormal		: NORMAL0,
 						  out float2 outTexCoord	: TEXCOORD0,
-						  out float4 outDiffuse		: COLOR0 )
+						  out float4 outDiffuse		: COLOR0, 
+						  out float outDepth		: DEPTH)
 {
 	matrix wvp;
 	wvp = mul(World, View);
@@ -75,6 +76,8 @@ void main( in  float4 inPosition		: POSITION0,
 	outPosition = mul( inPosition, wvp);
 	outNormal = inNormal;
 	outTexCoord = inTexCoord;
+
+	outDepth = 1 - saturate((50 - outPosition.w) / (50 - 0.1F));
 	
 	float4 worldNormal, normal;
 	normal = float4(inNormal.xyz, 0.0);

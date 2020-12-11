@@ -44,10 +44,18 @@ struct LIGHT
 
 struct Attributes
 {
+	float4 position : POSITION0;
+	float3 normal : NORMAL0;
+	float4 diffuse : COLOR0;
+	float2 texCoord : TEXCOORD0;
+};
+
+struct PS_IN
+{
 	float4 position : SV_POSITION;
 	float3 normal : NORMAL0;
-	//float4 diffuse : COLOR0;
-	//float2 texCoord : TEXCOORD0;
+	float4 diffuse : COLOR0;
+	float2 texCoord : TEXCOORD0;
 };
 
 
@@ -63,7 +71,7 @@ cbuffer LightBuffer : register(b4)
 //
 // Vertex shader
 //
-Attributes main(Attributes input)
+PS_IN main(Attributes input)
 {
 	matrix wvp;
 	wvp = mul(World, View);
