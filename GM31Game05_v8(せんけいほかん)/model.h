@@ -1,6 +1,4 @@
 #pragma once
-#include "lit.h"
-
 
 // マテリアル構造体
 struct MODEL_MATERIAL
@@ -52,7 +50,6 @@ private:
 	void LoadObj( const char *FileName, MODEL *Model );
 	void LoadMaterial( const char *FileName, MODEL_MATERIAL **MaterialArray, unsigned int *MaterialNum );
 
-	CLit* shader_lit;
 public:
 
 	void Draw();

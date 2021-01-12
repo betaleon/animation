@@ -111,6 +111,12 @@
     <ClCompile Include="instancing.cpp">
       <Filter>Resource Files\Shader\cpp</Filter>
     </ClCompile>
+    <ClCompile Include="rock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="p_grass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -208,6 +214,12 @@
     </ClInclude>
     <ClInclude Include="instancing.h">
       <Filter>Resource Files\Shader\header</Filter>
+    </ClInclude>
+    <ClInclude Include="rock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="p_grass.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

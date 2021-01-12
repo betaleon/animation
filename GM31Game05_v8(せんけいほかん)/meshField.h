@@ -5,8 +5,8 @@
 #include "game_object.h"
 #define TILE_WIDTH	10.0f
 #define TILE_HEIGHT 10.0f
-#define TILE_X 30
-#define TILE_Z 30
+#define TILE_X 81
+#define TILE_Z 81
 
 class CMeshField : public CGameObject
 {

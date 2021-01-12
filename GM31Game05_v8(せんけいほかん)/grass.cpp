@@ -6,7 +6,7 @@
 #include "camera.h"
 
 #define SIZE 3.0f
-#define GRASS_MOUNT 1000
+#define GRASS_MOUNT 1100
 
 void CGrass::Init()
 {
@@ -63,11 +63,11 @@ void CGrass::Init()
 		D3DXVECTOR3* pos = new D3DXVECTOR3[GRASS_MOUNT];
 
 		int i = 0;
-		for (int x = sqrt(GRASS_MOUNT) / 2 ; x > -sqrt(GRASS_MOUNT)/2; x--)
+		for (int z = sqrt(GRASS_MOUNT) / 2 ; z > -sqrt(GRASS_MOUNT)/2; z--)
 		{
-			for (int z = sqrt(GRASS_MOUNT) / 2; z > -sqrt(GRASS_MOUNT) / 2; z--)
+			for (int x = sqrt(GRASS_MOUNT) / 2; x > -sqrt(GRASS_MOUNT) / 2; x--)
 			{
-				pos[i] = D3DXVECTOR3(3 * x , 0, 3* z);
+				pos[i] = D3DXVECTOR3(4.6f * x , 0,  z);
 				pos[i].y = meshField->GetHeight(pos[i]);	//+ SIZE / 2.0f;
 				i++;
 			}
@@ -101,7 +101,6 @@ void CGrass::Init()
 		CRenderer::GetDevice()->CreateShaderResourceView(m_PositionBuffer, &srvd, &m_PositionSRV);
 
 	}
-
 	
 	m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -122,11 +121,15 @@ void CGrass::Uninit()
 void CGrass::Update()
 {
 	//CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
+
+
 }
 
 void CGrass::Draw()
 {
 	D3D11_MAPPED_SUBRESOURCE msr;
+
+	
    
 	//CCamera* camera = CManager::GetScene()->GetGameObject<CCamera>(0);
 	////以下ビルボード設定
@@ -172,7 +175,7 @@ void CGrass::Draw()
 
 	//ポリゴン描画
 	//CRenderer::GetDeviceContext()->Draw(4, 0);
-	CRenderer::SetDepthEnable(false);
+	//CRenderer::SetDepthEnable(false);
 	CRenderer::GetDeviceContext()->DrawInstanced(4, GRASS_MOUNT, 0, 0);
-	CRenderer::SetDepthEnable(true);
+	//CRenderer::SetDepthEnable(true);
 }

@@ -14,9 +14,9 @@ void CPlayer ::Init()
 	m_AnimationModel = new CAnimationModel();
 	//m_AnimationModel->Load("asset\\model\\Akai_Idle.fbx");
 	//m_AnimationModel->LoadAnimation("asset\\model\\Akai_Idle.fbx","Idle");
-	shader_pop = CRenderer::GetShader<CPop>();
+	//shader_pop = CRenderer::GetShader<CPop>();
 	//shader_lit = CRenderer::GetShader<CLit>();
-	//shader_pop = (CPop*)CRenderer::GetShader();
+	shader_fog = CRenderer::GetShader<CFog>();
 
 	m_AnimationModel->Load("asset\\model\\Reaction.fbx");
 	m_AnimationModel->LoadAnimation("asset\\model\\Akai_Run.fbx", "Run");
@@ -118,10 +118,10 @@ void CPlayer::Draw()
 	world = rot * scale * trans ;
 
 	//shader_lit->SetWorldMatrix(&world);
-	//shader_fog->SetWorldMatrix(&world);
-	shader_pop->SetWorldMatrix(&world);
+	shader_fog->SetWorldMatrix(&world);
+	//shader_pop->SetWorldMatrix(&world);
 	//CRenderer::GetDeviceContext()->GSSetShader(shader_pop->m_GeometryShader, NULL, 0);
-	CRenderer::SetShader(shader_pop);
+	CRenderer::SetShader(shader_fog);
 	//m_Model->Draw();
 	m_AnimationModel->Draw();
 }

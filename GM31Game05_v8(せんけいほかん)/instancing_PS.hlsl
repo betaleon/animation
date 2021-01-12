@@ -38,6 +38,7 @@ void main(	in  float4 inPosition		: POSITION0,
 {
 
     outDiffuse = g_Texture.Sample( g_SamplerState, inTexCoord );
+	//outDiffuse = float4(0.0f, 1.0f, 0.0f, 1.0f);
 
 	outDiffuse *= inDiffuse;
 

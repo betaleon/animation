@@ -4,6 +4,7 @@
 #include "model.h"
 #include "enemy.h"
 #include "input.h"
+#include "scene.h"
 
 void CEnemy::Init()
 {
@@ -27,7 +28,10 @@ void CEnemy::Uninit()
 
 void CEnemy::Update()
 {
-	
+	//メッシュフィールド高さ取得
+	CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
+
+	m_Position.y = meshField->GetHeight(m_Position);
 
 }
 
@@ -41,6 +45,7 @@ void CEnemy::Draw()
 	world = scale * rot * trans;
 
 	shader_lit->SetWorldMatrix(&world);
+	CRenderer::SetShader(shader_lit);
 
 	m_Model->Draw();
 }

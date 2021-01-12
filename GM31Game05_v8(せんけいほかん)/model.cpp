@@ -28,7 +28,7 @@ void CModel::Draw()
 	for( unsigned int i = 0; i < m_SubsetNum; i++ )
 	{
 		// マテリアル設定
-		shader_lit->SetMaterial( m_SubsetArray[i].Material.Material );
+		//shader_lit->SetMaterial( m_SubsetArray[i].Material.Material );
 
 		// テクスチャ設定
 		CRenderer::GetDeviceContext()->PSSetShaderResources( 0, 1, &m_SubsetArray[i].Material.Texture );
@@ -47,7 +47,7 @@ void CModel::Load( const char *FileName )
 	MODEL model;
 	LoadObj( FileName, &model );
 
-	shader_lit = CRenderer::GetShader<CLit>();
+	//shader_lit = CRenderer::GetShader<CLit>();
 
 	// 頂点バッファ生成
 	{

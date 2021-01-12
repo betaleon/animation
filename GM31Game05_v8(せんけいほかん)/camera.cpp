@@ -30,6 +30,13 @@ void CCamera::Update()
 	//third parson view 注視点をプレイヤーの前方にして、ポジションをプレイヤーから少し横にずらすとよりゲーム性が向上する
 	D3DXVECTOR3 forward = player->GetForward();
 	m_Position = m_Target - -forward * 10.0f + D3DXVECTOR3(0.0f, 5.0f, 0.0f);
+
+	//メッシュフィールド高さ取得
+	CMeshField* meshField = CManager::GetScene()->GetGameObject<CMeshField>(1);
+	if (m_Position.y <= meshField->GetHeight(m_Position) + 2.0f)
+	{
+		m_Position.y = meshField->GetHeight(m_Position) + 2.0f;
+	}
 }
 
 void CCamera::Draw()

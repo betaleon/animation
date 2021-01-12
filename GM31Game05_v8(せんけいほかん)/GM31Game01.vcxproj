@@ -172,7 +172,9 @@
     <ClCompile Include="lit.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="polygon.cpp" />
+    <ClCompile Include="p_grass.cpp" />
     <ClCompile Include="renderer.cpp" />
+    <ClCompile Include="rock.cpp" />
     <ClCompile Include="skydome.cpp" />
     <ClCompile Include="pop.cpp" />
     <ClCompile Include="tree.cpp" />
@@ -204,7 +206,9 @@
     <ClInclude Include="model.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="polygon.h" />
+    <ClInclude Include="p_grass.h" />
     <ClInclude Include="renderer.h" />
+    <ClInclude Include="rock.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="skydome.h" />

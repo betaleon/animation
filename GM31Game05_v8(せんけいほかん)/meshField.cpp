@@ -218,7 +218,9 @@ void CMeshField::Draw()
 
 	//ƒ|ƒŠƒSƒ“•`‰æ
 	//CRenderer::GetDeviceContext()->DrawIndexed((4 + ((TILE_X - 1) * 2)*TILE_Z + 2 * (TILE_Z - 1)), 0, 0);
+	//CRenderer::SetDepthEnable(TRUE);
 	CRenderer::GetDeviceContext()->DrawIndexed(((TILE_X + 2) * 2) * TILE_Z - 2, 0, 0);
+
 }
 
 float CMeshField::GetHeight(D3DXVECTOR3 Position)

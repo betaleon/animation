@@ -22,7 +22,6 @@ ID3D11DepthStencilState* CRenderer::m_DepthStateDisable = NULL;
 
 std::vector<CShader*> CRenderer::m_shaders = std::vector<CShader*>();
 //std::vector<std::shared_ptr<ComputeShader>> CRenderer::m_computeShaders = std::vector<std::shared_ptr<ComputeShader>>();
-//
 //std::weak_ptr<Shader> CRenderer::m_activeShader;
 
 void CRenderer::Init()
@@ -82,6 +81,7 @@ void CRenderer::Init()
     td.MiscFlags		= 0;
 	m_D3DDevice->CreateTexture2D( &td, NULL, &depthTexture );
 
+	
 	//深度ステンシルターゲット作成
 	D3D11_DEPTH_STENCIL_VIEW_DESC dsvd;
 	ZeroMemory( &dsvd, sizeof(dsvd) );
@@ -89,8 +89,6 @@ void CRenderer::Init()
 	dsvd.ViewDimension	= D3D11_DSV_DIMENSION_TEXTURE2D;
 	dsvd.Flags			= 0;
 	m_D3DDevice->CreateDepthStencilView( depthTexture, &dsvd, &m_DepthStencilView );
-
-	m_ImmediateContext->OMSetRenderTargets( 1, &m_RenderTargetView, m_DepthStencilView );
 
 
 	// ビューポート設定
@@ -152,14 +150,13 @@ void CRenderer::Init()
 
 	m_D3DDevice->CreateDepthStencilState( &depthStencilDesc, &m_DepthStateEnable );//深度有効ステート
 
-	//depthStencilDesc.DepthEnable = FALSE;
+	//depthStencilDesc.DepthEnable = TRUE;
 	depthStencilDesc.DepthWriteMask	= D3D11_DEPTH_WRITE_MASK_ZERO;
 	m_D3DDevice->CreateDepthStencilState( &depthStencilDesc, &m_DepthStateDisable );//深度無効ステート
 
 	m_ImmediateContext->OMSetDepthStencilState( m_DepthStateEnable, NULL );
 
-
-
+	m_ImmediateContext->OMSetRenderTargets(1, &m_RenderTargetView, m_DepthStencilView);
 
 	// サンプラーステート設定
 	D3D11_SAMPLER_DESC samplerDesc;
@@ -225,7 +222,6 @@ void CRenderer::Init()
 }
 
 
-
 void CRenderer::Uninit()
 {
 	// オブジェクト解放
@@ -239,13 +235,13 @@ void CRenderer::Uninit()
 }
 
 
-
 void CRenderer::Begin()
 {
 	// バックバッファクリア
 	float ClearColor[4] = { 1.0f, 1.0f, 1.0f, 1.0f };	//ここで背景色の変更
 	m_ImmediateContext->ClearRenderTargetView( m_RenderTargetView, ClearColor );
-	m_ImmediateContext->ClearDepthStencilView( m_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+	//m_ImmediateContext->ClearDepthStencilView( m_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+	m_ImmediateContext->ClearDepthStencilView( m_DepthStencilView, D3D11_CLEAR_DEPTH |D3D11_CLEAR_STENCIL, 1.0f, 0);
 
 }
 

@@ -15,6 +15,9 @@
 #include "enemy.h"
 #include "bullet.h"
 #include "grass.h"
+#include "tree.h"
+#include "rock.h"
+#include "p_grass.h"
 
 class CScene
 {
@@ -35,24 +38,21 @@ public:
 		//AddGameObject<CField>(1);
 		AddGameObject<CMeshField>(1);
 		AddGameObject<CSkydome>(1);
-		AddGameObject<CPlayer>(1);
 
+		AddGameObject<CPlayer>(1);
 		//AddGameObject<CPolygon>(2);
 
 		AddGameObject<CEnemy>(1)->SetPosition(D3DXVECTOR3(-5.0f, 2.0f, 5.0f));
 		AddGameObject<CEnemy>(1)->SetPosition(D3DXVECTOR3(0.0f, 2.0f, 5.0f));
 		AddGameObject<CEnemy>(1)->SetPosition(D3DXVECTOR3(5.0f, 2.0f, 5.0f));
 
-		AddGameObject<CGrass>(1);// ->SetPosition(D3DXVECTOR3(0, 0, 0));
-		//for (int z = 0; z < 100; z++)
-		//{
-		//	for (int x = 0; x < 100; x++)
-		//	{
-		//		AddGameObject<CGrass>(1)->SetPosition(D3DXVECTOR3(x, 0, z));
-		//	}
-		//}
-		
+		//Env-object
+		AddGameObject<CTree>(1);
+		//AddGameObject<CRock>(1);
 
+		AddGameObject<CGrass>(1);
+
+		//AddGameObject<CPgrass>(1);
 	}
 
 	virtual void Uninit()
