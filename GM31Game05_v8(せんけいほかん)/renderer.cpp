@@ -6,6 +6,7 @@
 #include "fog.h"
 #include "pop.h"
 #include "instancing.h"
+#include "shadowMapping.h"
 
 
 D3D_FEATURE_LEVEL       CRenderer::m_FeatureLevel = D3D_FEATURE_LEVEL_11_0;
@@ -19,6 +20,9 @@ ID3D11DepthStencilView* CRenderer::m_DepthStencilView = NULL;
 
 ID3D11DepthStencilState* CRenderer::m_DepthStateEnable = NULL;
 ID3D11DepthStencilState* CRenderer::m_DepthStateDisable = NULL;
+
+ID3D11DepthStencilView* CRenderer::m_ShadowDepthStencilView = NULL;//追加
+ID3D11ShaderResourceView* CRenderer::m_ShadowDepthShaderResourceView = NULL;//追加
 
 std::vector<CShader*> CRenderer::m_shaders = std::vector<CShader*>();
 //std::vector<std::shared_ptr<ComputeShader>> CRenderer::m_computeShaders = std::vector<std::shared_ptr<ComputeShader>>();
@@ -158,6 +162,39 @@ void CRenderer::Init()
 
 	m_ImmediateContext->OMSetRenderTargets(1, &m_RenderTargetView, m_DepthStencilView);
 
+	{
+		//シャドウバッファ用テクスチャー作成
+		ID3D11Texture2D* depthTexture = NULL;
+		D3D11_TEXTURE2D_DESC td;
+		ZeroMemory(&td, sizeof(td));
+		td.Width = sd.BufferDesc.Width;
+		td.Height = sd.BufferDesc.Height;
+		td.MipLevels = 1;
+		td.ArraySize = 1;
+		td.Format = DXGI_FORMAT_R32_TYPELESS;//R要素のみ使用するテクスチャ画像とする
+		td.SampleDesc = sd.SampleDesc;
+		td.Usage = D3D11_USAGE_DEFAULT;
+		td.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
+		td.CPUAccessFlags = 0;
+		td.MiscFlags = 0;
+		m_D3DDevice->CreateTexture2D(&td, NULL, &depthTexture);
+
+		//ステンシルターゲット作成
+		D3D11_DEPTH_STENCIL_VIEW_DESC dsvd;
+		ZeroMemory(&dsvd, sizeof(dsvd));
+		dsvd.Format = DXGI_FORMAT_D32_FLOAT;
+		dsvd.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+		dsvd.Flags = 0;
+		m_D3DDevice->CreateDepthStencilView(depthTexture, &dsvd, &m_ShadowDepthStencilView);
+		
+		//シェーダーリソースビュー作成
+		D3D11_SHADER_RESOURCE_VIEW_DESC SRVDesc = {};
+		SRVDesc.Format = DXGI_FORMAT_R32_FLOAT;
+		SRVDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+		SRVDesc.Texture2D.MipLevels = 1;
+		m_D3DDevice->CreateShaderResourceView(depthTexture, &SRVDesc,
+			&m_ShadowDepthShaderResourceView);
+	}
 	// サンプラーステート設定
 	D3D11_SAMPLER_DESC samplerDesc;
 	ZeroMemory( &samplerDesc, sizeof( samplerDesc ) );
@@ -186,6 +223,9 @@ void CRenderer::Init()
 	m_shaders.back()->Init();
 
 	m_shaders.push_back(new CInstancing());
+	m_shaders.back()->Init();
+
+	m_shaders.push_back(new CShadowM());
 	m_shaders.back()->Init();
 
 	// ライト無効化
@@ -237,6 +277,8 @@ void CRenderer::Uninit()
 
 void CRenderer::Begin()
 {
+	//レンダリングターゲットを本来のバックバッファと深度バッファへ復帰
+	m_ImmediateContext->OMSetRenderTargets(1, &m_RenderTargetView, m_DepthStencilView);//追加
 	// バックバッファクリア
 	float ClearColor[4] = { 1.0f, 1.0f, 1.0f, 1.0f };	//ここで背景色の変更
 	m_ImmediateContext->ClearRenderTargetView( m_RenderTargetView, ClearColor );
@@ -269,3 +311,12 @@ void CRenderer::SetShader(CShader* shader)
 
 	shader->UpdateConstantBuffers();
 }
+
+void CRenderer::BeginDepth()
+{
+	//シャドウバッファを深度バッファに設定し、内容を1で塗りつぶす
+	m_ImmediateContext->OMSetRenderTargets(0, NULL, m_ShadowDepthStencilView);
+	m_ImmediateContext->ClearDepthStencilView(m_ShadowDepthStencilView,
+		D3D11_CLEAR_DEPTH, 1.0f, 0);
+}
+

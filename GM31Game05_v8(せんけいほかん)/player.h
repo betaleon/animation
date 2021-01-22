@@ -2,6 +2,7 @@
 #include "lit.h"
 #include "fog.h"
 #include "pop.h"
+#include "shadowMapping.h"
 #include "game_object.h"
 
 //class CAnimationModel;
@@ -20,6 +21,7 @@ private:
 	CLit* shader_lit;
 	CFog* shader_fog;
 	CPop* shader_pop;
+	CShadowM* shader_shadowM;
 
 public:
 

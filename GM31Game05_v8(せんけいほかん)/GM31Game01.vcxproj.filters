@@ -117,6 +117,9 @@
     <ClCompile Include="p_grass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="shadowMapping.cpp">
+      <Filter>Resource Files\Shader\cpp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -220,6 +223,9 @@
     </ClInclude>
     <ClInclude Include="p_grass.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="shadowMapping.h">
+      <Filter>Resource Files\Shader\header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

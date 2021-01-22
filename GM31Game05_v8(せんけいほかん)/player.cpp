@@ -14,9 +14,12 @@ void CPlayer ::Init()
 	m_AnimationModel = new CAnimationModel();
 	//m_AnimationModel->Load("asset\\model\\Akai_Idle.fbx");
 	//m_AnimationModel->LoadAnimation("asset\\model\\Akai_Idle.fbx","Idle");
-	//shader_pop = CRenderer::GetShader<CPop>();
-	//shader_lit = CRenderer::GetShader<CLit>();
-	shader_fog = CRenderer::GetShader<CFog>();
+	{
+		//shader_pop = CRenderer::GetShader<CPop>();
+		//shader_lit = CRenderer::GetShader<CLit>();
+		//shader_fog = CRenderer::GetShader<CFog>();
+		shader_shadowM = CRenderer::GetShader<CShadowM>();
+	}
 
 	m_AnimationModel->Load("asset\\model\\Reaction.fbx");
 	m_AnimationModel->LoadAnimation("asset\\model\\Akai_Run.fbx", "Run");
@@ -116,12 +119,19 @@ void CPlayer::Draw()
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
 	//world = scale * rot * trans;
 	world = rot * scale * trans ;
-
-	//shader_lit->SetWorldMatrix(&world);
-	shader_fog->SetWorldMatrix(&world);
-	//shader_pop->SetWorldMatrix(&world);
+	{
+		//shader_lit->SetWorldMatrix(&world);		//basiclight
+		//shader_fog->SetWorldMatrix(&world);		//fog
+		//shader_pop->SetWorldMatrix(&world);		//pop(geometry)
+		shader_shadowM->SetWorldMatrix(&world);	//shadowMapping
+	}
 	//CRenderer::GetDeviceContext()->GSSetShader(shader_pop->m_GeometryShader, NULL, 0);
-	CRenderer::SetShader(shader_fog);
+	CRenderer::SetShader(shader_shadowM);
+
+	//シャドウバッファテクスチャをセット
+	ID3D11ShaderResourceView* shadowDepthTexture = CRenderer::GetShadowDepthTexture();//-追加
+	CRenderer::GetDeviceContext()->PSSetShaderResources(1, 1, &shadowDepthTexture);//-追加
+
 	//m_Model->Draw();
 	m_AnimationModel->Draw();
 }

@@ -52,6 +52,9 @@ struct LIGHT
 	D3DXVECTOR4	Direction;
 	D3DXCOLOR	Diffuse;
 	D3DXCOLOR	Ambient;
+
+	D3DXMATRIX ViewMatrix;//’Ç‰Á
+	D3DXMATRIX ProjectionMatrix;//’Ç‰Á
 };
 
 
@@ -74,6 +77,9 @@ private:
 	static ID3D11DepthStencilState* m_DepthStateEnable;
 	static ID3D11DepthStencilState* m_DepthStateDisable;
 
+	static ID3D11DepthStencilView* m_ShadowDepthStencilView;//’Ç‰Á
+	static ID3D11ShaderResourceView*m_ShadowDepthShaderResourceView;//’Ç‰Á
+
 	static std::vector<CShader*> m_shaders;
 
 
@@ -88,6 +94,13 @@ public:
 
 	static ID3D11Device* GetDevice( void ){ return m_D3DDevice; }
 	static ID3D11DeviceContext* GetDeviceContext( void ){ return m_ImmediateContext; }
+
+	//ShadowMapping—p
+	static void BeginDepth();//’Ç‰Á
+	static ID3D11ShaderResourceView* GetShadowDepthTexture() //’Ç‰Á
+	{
+		return m_ShadowDepthShaderResourceView;
+	}
 
 	template <typename T>
 	static T* GetShader()

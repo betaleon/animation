@@ -175,6 +175,7 @@
     <ClCompile Include="p_grass.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="rock.cpp" />
+    <ClCompile Include="shadowMapping.cpp" />
     <ClCompile Include="skydome.cpp" />
     <ClCompile Include="pop.cpp" />
     <ClCompile Include="tree.cpp" />
@@ -211,6 +212,7 @@
     <ClInclude Include="rock.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="shader.h" />
+    <ClInclude Include="shadowMapping.h" />
     <ClInclude Include="skydome.h" />
     <ClInclude Include="pop.h" />
     <ClInclude Include="tree.h" />
