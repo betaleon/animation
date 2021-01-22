@@ -12,8 +12,11 @@
 
 void CMeshField::Init()
 {
-	//shader_pop = (CPop*)CRenderer::GetShader();
-	shader_fog = CRenderer::GetShader<CFog>();
+	{
+		//shader_pop = (CPop*)CRenderer::GetShader();
+		//shader_fog = CRenderer::GetShader<CFog>();
+		shader_shadowM = CRenderer::GetShader<CShadowM>();
+	}
 
 	int Array[TILE_X + 1][TILE_Z + 1] = {};
 	DiamondSquare(Array, TILE_X);
@@ -185,10 +188,13 @@ void CMeshField::Draw()
 	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
 	world = scale * rot * trans;
 
-	//shader
-	//shader_lit->SetWorldMatrix(&world);
-	shader_fog->SetWorldMatrix(&world);
-	//shader_pop->SetWorldMatrix(&world);
+	{
+		//shader
+		//shader_lit->SetWorldMatrix(&world);
+		//shader_fog->SetWorldMatrix(&world);
+		//shader_pop->SetWorldMatrix(&world);
+		shader_shadowM->SetWorldMatrix(&world);
+	}
 
 	//頂点バッファ設定
 	UINT stride = sizeof(VERTEX_3D);
@@ -202,19 +208,40 @@ void CMeshField::Draw()
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(material));
 	material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	//shader
-	//shader_lit->SetMaterial(material);
-	shader_fog->SetMaterial(material);
-	//shader_pop->SetMaterial(material);
+
+	{
+		//shader
+		//shader_lit->SetMaterial(material);
+		//shader_fog->SetMaterial(material);
+		//shader_pop->SetMaterial(material);
+		shader_shadowM->SetMaterial(material);
+	}
 
 	//テクスチャ設定
 	CRenderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);
+	//シャドウバッファをセット
+	ID3D11ShaderResourceView* shadowDepthTexture = CRenderer::GetShadowDepthTexture();//-追加
+	CRenderer::GetDeviceContext()->PSSetShaderResources(1, 1, &shadowDepthTexture);//-追加
 
 	//プリミティブトポロジ型
 	CRenderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 	
 	//SetShader
-	CRenderer::SetShader(shader_fog);
+	LIGHT light;
+	light.Enable = true;
+	light.Direction = D3DXVECTOR4(1.0f, -1.0f, 1.0f, 0.0f);
+	D3DXVec4Normalize(&light.Direction, &light.Direction);
+	light.Ambient = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f);
+	light.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	//-----------ライトをカメラとみなした行列を作成
+	D3DXMatrixLookAtLH(&light.ViewMatrix, &D3DXVECTOR3(-10.0f, 10.0f, -10.0f),
+		&D3DXVECTOR3(0.0f, 0.0f, 0.0f), &D3DXVECTOR3(0.0f, 1.0f, 0.0f));
+	//-----------ライト用のプロジェクション行列を作成
+	D3DXMatrixPerspectiveFovLH(&light.ProjectionMatrix, 1.0f,
+		(float)SCREEN_WIDTH / SCREEN_HEIGHT, 5.0f, 30.0f);
+	shader_shadowM->SetLight(light);
+
+	CRenderer::SetShader(shader_shadowM);
 
 	//ポリゴン描画
 	//CRenderer::GetDeviceContext()->DrawIndexed((4 + ((TILE_X - 1) * 2)*TILE_Z + 2 * (TILE_Z - 1)), 0, 0);

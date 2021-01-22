@@ -25,6 +25,8 @@ ID3D11DepthStencilView* CRenderer::m_ShadowDepthStencilView = NULL;//’Ç‰Á
 ID3D11ShaderResourceView* CRenderer::m_ShadowDepthShaderResourceView = NULL;//’Ç‰Á
 
 std::vector<CShader*> CRenderer::m_shaders = std::vector<CShader*>();
+
+CShadowM shader_shadowM;
 //std::vector<std::shared_ptr<ComputeShader>> CRenderer::m_computeShaders = std::vector<std::shared_ptr<ComputeShader>>();
 //std::weak_ptr<Shader> CRenderer::m_activeShader;
 
@@ -236,6 +238,7 @@ void CRenderer::Init()
 	light.Ambient = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f);
 	light.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 
+
 	//shader_lit->SetLight(light);
 
 	//shader_pop->SetLight(light);
@@ -243,6 +246,8 @@ void CRenderer::Init()
 	//shader_fog->SetLight(light);
 
 	//shader_instancing->SetLight(light);
+
+	
 
 
 	// ƒ}ƒeƒŠƒAƒ‹‰Šú‰»
