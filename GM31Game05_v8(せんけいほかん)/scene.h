@@ -26,15 +26,15 @@ protected:
 	std::list<CGameObject*> m_GameObject[3];
 
 public:
-	CScene(){}
-	virtual ~CScene(){}
+	CScene() {}
+	virtual ~CScene() {}
 
 	virtual void Init()
 	{
 		CBullet::Load();
 
 		AddGameObject<CCamera>(0);
-		
+
 		//AddGameObject<CField>(1);
 		AddGameObject<CMeshField>(1);
 		AddGameObject<CSkydome>(1);
@@ -96,6 +96,14 @@ public:
 		}
 
 	}
+
+	//virtual void DrawPath1()
+	//{
+	//	for (CGameObject* object : m_GameObject[1])
+	//	{
+	//		object->Draw();
+	//	}
+	//}
 
 	//templateŠÖ”‚Íˆø”‚Æ‚µ‚ÄuŒ^v‚ğ“n‚·‚±‚Æ‚ª‚Å‚«‚é
 	//cpp‚Å‘‚¢‚Ä‚Í‚¢‚¯‚È‚¢

@@ -126,6 +126,8 @@ void CPlayer::Draw()
 		shader_shadowM->SetWorldMatrix(&world);	//shadowMapping
 	}
 	//CRenderer::GetDeviceContext()->GSSetShader(shader_pop->m_GeometryShader, NULL, 0);
+
+	//SetShader
 	LIGHT light;
 	light.Enable = true;
 	light.Direction = D3DXVECTOR4(1.0f, -1.0f, 1.0f, 0.0f);
@@ -138,7 +140,11 @@ void CPlayer::Draw()
 	//-----------ライト用のプロジェクション行列を作成
 	D3DXMatrixPerspectiveFovLH(&light.ProjectionMatrix, 1.0f,
 		(float)SCREEN_WIDTH / SCREEN_HEIGHT, 5.0f, 30.0f);
+
 	shader_shadowM->SetLight(light);
+
+	//shader_shadowM->SetViewMatrix(&light.ViewMatrix);
+	//shader_shadowM->SetProjectionMatrix(&light.ProjectionMatrix);
 
 	CRenderer::SetShader(shader_shadowM);
 

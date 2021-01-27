@@ -241,6 +241,9 @@ void CMeshField::Draw()
 		(float)SCREEN_WIDTH / SCREEN_HEIGHT, 5.0f, 30.0f);
 	shader_shadowM->SetLight(light);
 
+	//shader_shadowM->SetViewMatrix(&light.ViewMatrix);
+	//shader_shadowM->SetProjectionMatrix(&light.ProjectionMatrix);
+
 	CRenderer::SetShader(shader_shadowM);
 
 	//ƒ|ƒŠƒSƒ“•`‰æ

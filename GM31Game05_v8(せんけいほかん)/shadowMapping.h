@@ -22,6 +22,16 @@ public:
 		deviceContext->VSSetConstantBuffers(4, 1, &m_LightBuffer);
 	}
 
+	void BeginDepth()//新規関数追加
+	{
+		auto deviceContext = CRenderer::GetDeviceContext();
+
+		//シャドウバッファを深度バッファに設定し、内容を1で塗りつぶす
+		deviceContext->OMSetRenderTargets(0, NULL, m_ShadowDepthStencilView);
+		deviceContext->ClearDepthStencilView(m_ShadowDepthStencilView,
+			D3D11_CLEAR_DEPTH, 1.0f, 0);
+	}
+
 	void SetWorldMatrix(D3DXMATRIX *WorldMatrix) override
 	{
 		D3DXMATRIX world;
@@ -52,6 +62,7 @@ public:
 	{
 		D3DXMatrixTranspose(&Light.ViewMatrix, &Light.ViewMatrix);//追加
 		D3DXMatrixTranspose(&Light.ProjectionMatrix, &Light.ProjectionMatrix);//追加
+
 		CRenderer::GetDeviceContext()->UpdateSubresource(m_LightBuffer, 0, NULL, &Light, 0, 0);
 	}
 
