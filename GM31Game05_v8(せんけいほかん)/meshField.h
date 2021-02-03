@@ -29,6 +29,7 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
+	void DrawPath1();
 	float GetHeight(D3DXVECTOR3 Position);
 	void DiamondSquare(int Array[TILE_X + 1][TILE_Z + 1], int size);
 	void SquareStep(int Array[TILE_X + 1][TILE_Z + 1], int x, int z, int reach);

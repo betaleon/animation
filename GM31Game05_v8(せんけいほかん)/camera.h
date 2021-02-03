@@ -20,6 +20,7 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
+	void DrawPath1() {};
 
 	D3DXMATRIX GetViewMatrix() { return m_viewMatrix; }
 };

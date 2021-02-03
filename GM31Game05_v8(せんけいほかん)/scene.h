@@ -37,7 +37,7 @@ public:
 
 		//AddGameObject<CField>(1);
 		AddGameObject<CMeshField>(1);
-		AddGameObject<CSkydome>(1);
+		//AddGameObject<CSkydome>(1);
 
 		AddGameObject<CPlayer>(1);
 		//AddGameObject<CPolygon>(2);
@@ -97,13 +97,13 @@ public:
 
 	}
 
-	//virtual void DrawPath1()
-	//{
-	//	for (CGameObject* object : m_GameObject[1])
-	//	{
-	//		object->Draw();
-	//	}
-	//}
+	virtual void DrawPath1()
+	{
+		for (CGameObject* object : m_GameObject[1])
+		{
+			object->Draw();
+		}
+	}
 
 	//templateŠÖ”‚Íˆø”‚Æ‚µ‚ÄuŒ^v‚ğ“n‚·‚±‚Æ‚ª‚Å‚«‚é
 	//cpp‚Å‘‚¢‚Ä‚Í‚¢‚¯‚È‚¢

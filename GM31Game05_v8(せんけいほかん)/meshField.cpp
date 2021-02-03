@@ -225,7 +225,18 @@ void CMeshField::Draw()
 
 	//プリミティブトポロジ型
 	CRenderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
-	
+
+	CRenderer::SetShader(shader_shadowM);
+
+	//ポリゴン描画
+	//CRenderer::GetDeviceContext()->DrawIndexed((4 + ((TILE_X - 1) * 2)*TILE_Z + 2 * (TILE_Z - 1)), 0, 0);
+	//CRenderer::SetDepthEnable(TRUE);
+	CRenderer::GetDeviceContext()->DrawIndexed(((TILE_X + 2) * 2) * TILE_Z - 2, 0, 0);
+
+}
+
+void CMeshField::DrawPath1()
+{
 	//SetShader
 	LIGHT light;
 	light.Enable = true;
@@ -241,8 +252,50 @@ void CMeshField::Draw()
 		(float)SCREEN_WIDTH / SCREEN_HEIGHT, 5.0f, 30.0f);
 	shader_shadowM->SetLight(light);
 
-	//shader_shadowM->SetViewMatrix(&light.ViewMatrix);
-	//shader_shadowM->SetProjectionMatrix(&light.ProjectionMatrix);
+	//shader_shadowM->BeginDepth();
+	CRenderer::BeginDepth();
+
+	shader_shadowM->SetViewMatrix(&light.ViewMatrix);
+	shader_shadowM->SetProjectionMatrix(&light.ProjectionMatrix);
+
+	//マトリクス設定
+	D3DXMATRIX world, scale, rot, trans;
+	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
+	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
+	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
+	world = scale * rot * trans;
+
+	{
+		//shader
+		shader_shadowM->SetWorldMatrix(&world);
+	}
+
+	//頂点バッファ設定
+	UINT stride = sizeof(VERTEX_3D);
+	UINT offset = 0;
+	CRenderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &m_VertexBuffer, &stride, &offset);
+
+	//インデックスバッファの設定
+	CRenderer::GetDeviceContext()->IASetIndexBuffer(m_IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+
+	//マテリアル設定
+	MATERIAL material;
+	ZeroMemory(&material, sizeof(material));
+	material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+
+	{
+		//shader
+		shader_shadowM->SetMaterial(material);
+	}
+
+	//テクスチャ設定
+	CRenderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);
+	//シャドウバッファをセット
+	ID3D11ShaderResourceView* shadowDepthTexture = CRenderer::GetShadowDepthTexture();//-追加
+	CRenderer::GetDeviceContext()->PSSetShaderResources(1, 1, &shadowDepthTexture);//-追加
+
+	//プリミティブトポロジ型
+	CRenderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	CRenderer::SetShader(shader_shadowM);
 

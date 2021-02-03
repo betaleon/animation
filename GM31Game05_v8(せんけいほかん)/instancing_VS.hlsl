@@ -55,7 +55,7 @@ StructuredBuffer<float3> Position : register(t2);
 //=============================================================================
 // 頂点シェーダ
 //=============================================================================
-void main( in  float4 inPosition		: POSITION0,
+void main(				  in  float4 inPosition		: POSITION0,
 						  in  float4 inNormal		: NORMAL0,
 						  in  float4 inDiffuse		: COLOR0,
 						  in  float2 inTexCoord		: TEXCOORD0,

@@ -18,6 +18,7 @@ public:		//アクセス指定子
 	virtual void Uninit() = 0;		//純粋仮想関数
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
+	virtual void DrawPath1() = 0;
 
 	D3DXVECTOR3 GetPosition() { return m_Position; }
 	D3DXVECTOR3 GetRotation() { return m_Rotation; }

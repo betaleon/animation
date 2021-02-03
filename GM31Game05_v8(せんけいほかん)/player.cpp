@@ -120,14 +120,22 @@ void CPlayer::Draw()
 	//world = scale * rot * trans;
 	world = rot * scale * trans ;
 	{
-		//shader_lit->SetWorldMatrix(&world);		//basiclight
-		//shader_fog->SetWorldMatrix(&world);		//fog
-		//shader_pop->SetWorldMatrix(&world);		//pop(geometry)
 		shader_shadowM->SetWorldMatrix(&world);	//shadowMapping
 	}
-	//CRenderer::GetDeviceContext()->GSSetShader(shader_pop->m_GeometryShader, NULL, 0);
 
-	//SetShader
+	CRenderer::SetShader(shader_shadowM);
+
+	//シャドウバッファテクスチャをセット
+	ID3D11ShaderResourceView* shadowDepthTexture = CRenderer::GetShadowDepthTexture();//-追加
+	CRenderer::GetDeviceContext()->PSSetShaderResources(1, 1, &shadowDepthTexture);//-追加
+
+	//m_Model->Draw();
+	m_AnimationModel->Draw();
+}
+
+void CPlayer::DrawPath1()
+{
+	//SetLight
 	LIGHT light;
 	light.Enable = true;
 	light.Direction = D3DXVECTOR4(1.0f, -1.0f, 1.0f, 0.0f);
@@ -142,9 +150,22 @@ void CPlayer::Draw()
 		(float)SCREEN_WIDTH / SCREEN_HEIGHT, 5.0f, 30.0f);
 
 	shader_shadowM->SetLight(light);
+	CRenderer::BeginDepth();
 
-	//shader_shadowM->SetViewMatrix(&light.ViewMatrix);
-	//shader_shadowM->SetProjectionMatrix(&light.ProjectionMatrix);
+	shader_shadowM->SetViewMatrix(&light.ViewMatrix);
+	shader_shadowM->SetProjectionMatrix(&light.ProjectionMatrix);
+
+	//マトリクス設定
+	D3DXMATRIX world, scale, rot, trans;
+	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
+	D3DXMatrixRotationYawPitchRoll(&rot, m_Rotation.y, m_Rotation.x, m_Rotation.z);
+	//D3DXMatrixRotationQuaternion(&rot, &m_Quaternion);
+	D3DXMatrixTranslation(&trans, m_Position.x, m_Position.y, m_Position.z);
+	//world = scale * rot * trans;
+	world = rot * scale * trans;
+	{
+		shader_shadowM->SetWorldMatrix(&world);	//shadowMapping
+	}
 
 	CRenderer::SetShader(shader_shadowM);
 
@@ -152,6 +173,5 @@ void CPlayer::Draw()
 	ID3D11ShaderResourceView* shadowDepthTexture = CRenderer::GetShadowDepthTexture();//-追加
 	CRenderer::GetDeviceContext()->PSSetShaderResources(1, 1, &shadowDepthTexture);//-追加
 
-	//m_Model->Draw();
 	m_AnimationModel->Draw();
 }

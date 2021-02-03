@@ -20,17 +20,22 @@ public:
 		deviceContext->VSSetConstantBuffers(2, 1, &m_ProjectionBuffer);
 		deviceContext->VSSetConstantBuffers(3, 1, &m_MaterialBuffer);
 		deviceContext->VSSetConstantBuffers(4, 1, &m_LightBuffer);
-	}
+	};
 
-	void BeginDepth()//新規関数追加
-	{
-		auto deviceContext = CRenderer::GetDeviceContext();
+	//void BeginDepth()//新規関数追加
+	//{
+	//	auto deviceContext = CRenderer::GetDeviceContext();
+	//
+	//	//シャドウバッファを深度バッファに設定し、内容を1で塗りつぶす
+	//	deviceContext->OMSetRenderTargets(0, NULL, m_ShadowDepthStencilView);
+	//	deviceContext->ClearDepthStencilView(m_ShadowDepthStencilView,
+	//		D3D11_CLEAR_DEPTH, 1.0f, 0);
+	//}
 
-		//シャドウバッファを深度バッファに設定し、内容を1で塗りつぶす
-		deviceContext->OMSetRenderTargets(0, NULL, m_ShadowDepthStencilView);
-		deviceContext->ClearDepthStencilView(m_ShadowDepthStencilView,
-			D3D11_CLEAR_DEPTH, 1.0f, 0);
-	}
+	//static ID3D11ShaderResourceView* GetShadowDepthTexture()
+	//{
+	//	return m_ShadowDepthShaderResourceView;
+	//}
 
 	void SetWorldMatrix(D3DXMATRIX *WorldMatrix) override
 	{

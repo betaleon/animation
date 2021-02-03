@@ -14,11 +14,10 @@ protected:
 	ID3D11Buffer*			m_MaterialBuffer = NULL;
 	ID3D11Buffer*			m_LightBuffer = NULL;
 
+	friend class CRenderer;
 	//‰e—p
 	static ID3D11DepthStencilView* m_ShadowDepthStencilView;//’Ç‰Á
 	static ID3D11ShaderResourceView*m_ShadowDepthShaderResourceView;//’Ç‰Á
-
-	friend class CRenderer;
 public:
 	ID3D11GeometryShader*	m_GeometryShader = NULL;
 	virtual void Init() {}

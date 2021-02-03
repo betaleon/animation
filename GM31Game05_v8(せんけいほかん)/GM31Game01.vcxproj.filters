@@ -256,5 +256,11 @@
     <FxCompile Include="instancing_PS.hlsl">
       <Filter>Resource Files\Shader\hlsl</Filter>
     </FxCompile>
+    <FxCompile Include="shadowMappingPS.hlsl">
+      <Filter>Resource Files\Shader\hlsl</Filter>
+    </FxCompile>
+    <FxCompile Include="shadowMappingVS.hlsl">
+      <Filter>Resource Files\Shader\hlsl</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
