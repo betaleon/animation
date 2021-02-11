@@ -80,4 +80,9 @@ public:
 	{
 		CRenderer::GetDeviceContext()->PSSetSamplers(0, 1, &sampler);
 	}
+
+	void PS_SetShadowSamplerState(ID3D11SamplerState* sampler) 
+	{
+		CRenderer::GetDeviceContext()->PSSetSamplers(1, 1, &sampler);
+	}
 };

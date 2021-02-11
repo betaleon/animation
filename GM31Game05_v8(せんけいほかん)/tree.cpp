@@ -5,6 +5,7 @@
 #include "tree.h"
 #include "input.h"
 #include "scene.h"
+#include "meshField.h"
 
 void CTree::Init()
 {

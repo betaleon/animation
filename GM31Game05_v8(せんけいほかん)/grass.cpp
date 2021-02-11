@@ -1,6 +1,7 @@
 #include "main.h"
 #include "renderer.h"
 #include "grass.h"
+#include "meshField.h"
 #include "scene.h"
 #include "manager.h"
 #include "camera.h"
@@ -67,7 +68,7 @@ void CGrass::Init()
 		{
 			for (int x = sqrt(GRASS_MOUNT) / 2; x > -sqrt(GRASS_MOUNT) / 2; x--)
 			{
-				pos[i] = D3DXVECTOR3(4.6f * x , 0,  z);
+				pos[i] = D3DXVECTOR3(2.0f * x , 0,  z);
 				pos[i].y = meshField->GetHeight(pos[i]);	//+ SIZE / 2.0f;
 				i++;
 			}

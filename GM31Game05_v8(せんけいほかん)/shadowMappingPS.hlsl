@@ -2,6 +2,7 @@
 Texture2D g_Texture : register(t0);
 Texture2D g_TextureShadowDepth : register(t1);//----シャドウマップ
 SamplerState g_SamplerState : register(s0);
+SamplerState g_ShadowSamplerState : register(s1);
 
 void main(//in PS_IN In, out float4 outDiffuse : SV_Target
 	in  float4 inPosition		: SV_POSITION,
@@ -25,14 +26,16 @@ void main(//in PS_IN In, out float4 outDiffuse : SV_Target
 	inShadowPosition.y = -inShadowPosition.y *0.5f + 0.5f;//Yは上下を反転するので符号を-にする
 
 	//シャドウバッファ(テクスチャ)からこのピクセルの見た目の光源からの距離を取得する
-	float depth = g_TextureShadowDepth.Sample(g_SamplerState, inShadowPosition.xy);
+	float depth = g_TextureShadowDepth.Sample(g_ShadowSamplerState, inShadowPosition.xy);
+	//float depth = g_TextureShadowDepth.Sample(g_SamplerState, inShadowPosition.xy);
 
 	//変換したピクセルの距離(In.ShadowPosition.z)とシャドウバッファの見た目の距離(depth)を比較する
 	//見た目の距離が計算上の距離()より小さければ、このピクセルは影の中にある=色(Diffuse,rgb)が暗くなる
 	//<ここを作ろう>
 	//if文で普通に作ればOK
 	
-	if (inShadowPosition.z -0.01f< depth)
+	if (inShadowPosition.z -0.01f < depth || (inShadowPosition.x < 0 || inShadowPosition.x > 1)
+		||(inShadowPosition.y < 0 || inShadowPosition.y > 1 ))
 	{
 
 	}

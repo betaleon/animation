@@ -1,6 +1,10 @@
 #include "main.h"
 #include "renderer.h"
 #include "MeshField.h"
+#include "animation_model.h"
+#include "player.h"
+#include "scene.h"
+#include "manager.h"
 
 //float g_FieldHeight[TILE_X][TILE_Z]=
 //{
@@ -50,13 +54,15 @@ void CMeshField::Init()
 			//float y = sinf(x*0.5f)*5.0f;
 			float y = sinf(x*0.5f)*sinf(z*0.5f)*5.0f + Array[x][z];
 			//float y = g_FieldHeight[z][x];
-			m_vertex[x][z].Position = D3DXVECTOR3((x - 10)*5.0f,y, (z - 10)*-5.0f);
+			m_vertex[x][z].Position = D3DXVECTOR3((x - 10)*5.0f, y, (z - 10)*-5.0f);
 			m_vertex[x][z].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 			m_vertex[x][z].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+			//m_vertex[x][z].TexCoord = D3DXVECTOR2(x*0.5f, z*0.5f);
 			m_vertex[x][z].TexCoord = D3DXVECTOR2(x*0.5f, z*0.5f);
 		}
 	}
-
+		
+	m_vertex[0][0].TexCoord = D3DXVECTOR2(0, 0);
 	//法線ベクトル算出
 	for (int x = 1; x <= TILE_X-1; x++)
 	{
@@ -180,7 +186,7 @@ void CMeshField::Update()
 
 void CMeshField::Draw()
 {
-
+	//shader_shadowM->UpdateConstantBuffers();
 	//マトリクス設定
 	D3DXMATRIX world, scale, rot, trans;
 	D3DXMatrixScaling(&scale, m_Scale.x, m_Scale.y, m_Scale.z);
@@ -237,6 +243,7 @@ void CMeshField::Draw()
 
 void CMeshField::DrawPath1()
 {
+	//shader_shadowM->UpdateConstantBuffers();
 	//SetShader
 	LIGHT light;
 	light.Enable = true;
@@ -244,12 +251,14 @@ void CMeshField::DrawPath1()
 	D3DXVec4Normalize(&light.Direction, &light.Direction);
 	light.Ambient = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f);
 	light.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+
+	CPlayer* pPlayer = CManager::GetScene()->GetGameObject<CPlayer>(1);
 	//-----------ライトをカメラとみなした行列を作成
-	D3DXMatrixLookAtLH(&light.ViewMatrix, &D3DXVECTOR3(-10.0f, 10.0f, -10.0f),
-		&D3DXVECTOR3(0.0f, 0.0f, 0.0f), &D3DXVECTOR3(0.0f, 1.0f, 0.0f));
+	D3DXMatrixLookAtLH(&light.ViewMatrix, &(D3DXVECTOR3(-10.0f, 20.0f, -10.0f) + pPlayer->GetPosition()),
+		&pPlayer->GetPosition(), &D3DXVECTOR3(0.0f, 1.0f, 0.0f));
 	//-----------ライト用のプロジェクション行列を作成
 	D3DXMatrixPerspectiveFovLH(&light.ProjectionMatrix, 1.0f,
-		(float)SCREEN_WIDTH / SCREEN_HEIGHT, 5.0f, 30.0f);
+		(float)SCREEN_WIDTH / SCREEN_HEIGHT, 5.0f, 100.0f);
 	shader_shadowM->SetLight(light);
 
 	//shader_shadowM->BeginDepth();

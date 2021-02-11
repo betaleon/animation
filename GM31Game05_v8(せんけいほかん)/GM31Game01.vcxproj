@@ -156,6 +156,7 @@
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="field.cpp" />
     <ClCompile Include="fog.cpp" />
+    <ClCompile Include="game.cpp" />
     <ClCompile Include="grass.cpp" />
     <ClCompile Include="imgui.cpp" />
     <ClCompile Include="imgui_demo.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="enemy.h" />
     <ClInclude Include="field.h" />
     <ClInclude Include="fog.h" />
+    <ClInclude Include="game.h" />
     <ClInclude Include="game_object.h" />
     <ClInclude Include="grass.h" />
     <ClInclude Include="imconfig.h" />
@@ -282,10 +284,14 @@
     <FxCompile Include="shadowMappingPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cso</ObjectFileOutput>
     </FxCompile>
     <FxCompile Include="shadowMappingVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).cso</ObjectFileOutput>
     </FxCompile>
     <FxCompile Include="vertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>

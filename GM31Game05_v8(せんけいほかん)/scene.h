@@ -4,20 +4,20 @@
 #include <typeinfo>
 #include "main.h"
 #include "game_object.h"
-#include "camera.h"
-#include "field.h"
-#include "meshField.h"
-#include "skydome.h"
-//#include "model.h"
-#include "polygon.h"
-#include "animation_model.h"
-#include "player.h"
-#include "enemy.h"
-#include "bullet.h"
-#include "grass.h"
-#include "tree.h"
-#include "rock.h"
-#include "p_grass.h"
+//#include "camera.h"
+//#include "field.h"
+//#include "meshField.h"
+//#include "skydome.h"
+////#include "model.h"
+//#include "polygon.h"
+//#include "animation_model.h"
+//#include "player.h"
+//#include "enemy.h"
+//#include "bullet.h"
+//#include "grass.h"
+//#include "tree.h"
+//#include "rock.h"
+//#include "p_grass.h"
 
 class CScene
 {
@@ -30,30 +30,30 @@ public:
 	virtual ~CScene() {}
 
 	virtual void Init()
-	{
-		CBullet::Load();
+		/*{
+			CBullet::Load();
 
-		AddGameObject<CCamera>(0);
+			AddGameObject<CCamera>(0);
 
-		//AddGameObject<CField>(1);
-		AddGameObject<CMeshField>(1);
-		//AddGameObject<CSkydome>(1);
+			//AddGameObject<CField>(1);
+			AddGameObject<CMeshField>(1);
+			//AddGameObject<CSkydome>(1);
 
-		AddGameObject<CPlayer>(1);
-		//AddGameObject<CPolygon>(2);
+			AddGameObject<CPlayer>(1);
+			//AddGameObject<CPolygon>(2);
 
-		AddGameObject<CEnemy>(1)->SetPosition(D3DXVECTOR3(-5.0f, 2.0f, 5.0f));
-		AddGameObject<CEnemy>(1)->SetPosition(D3DXVECTOR3(0.0f, 2.0f, 5.0f));
-		AddGameObject<CEnemy>(1)->SetPosition(D3DXVECTOR3(5.0f, 2.0f, 5.0f));
+			AddGameObject<CEnemy>(1)->SetPosition(D3DXVECTOR3(-5.0f, 2.0f, 5.0f));
+			AddGameObject<CEnemy>(1)->SetPosition(D3DXVECTOR3(0.0f, 2.0f, 5.0f));
+			AddGameObject<CEnemy>(1)->SetPosition(D3DXVECTOR3(5.0f, 2.0f, 5.0f));
 
-		//Env-object
-		AddGameObject<CTree>(1);
-		//AddGameObject<CRock>(1);
+			//Env-object
+			AddGameObject<CTree>(1);
+			//AddGameObject<CRock>(1);
 
-		AddGameObject<CGrass>(1);
+			AddGameObject<CGrass>(1);
 
-		//AddGameObject<CPgrass>(1);
-	}
+			//AddGameObject<CPgrass>(1);
+		}*/ = 0;
 
 	virtual void Uninit()
 	{
@@ -66,7 +66,7 @@ public:
 			}
 			m_GameObject[i].clear();	//リストのクリア
 		}
-		CBullet::Unload();
+		//CBullet::Unload();
 	}
 
 	virtual void Update()
@@ -101,7 +101,7 @@ public:
 	{
 		for (CGameObject* object : m_GameObject[1])
 		{
-			object->Draw();
+			object->DrawPath1();
 		}
 	}
 

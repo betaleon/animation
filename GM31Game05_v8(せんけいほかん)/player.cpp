@@ -4,8 +4,10 @@
 #include "input.h"
 #include "scene.h"
 //#include "model.h"
-#include "animation_model.h"
+//#include "animation_model.h"
 #include "player.h"
+#include "meshField.h"
+#include "bullet.h"
 
 void CPlayer ::Init()
 {
@@ -143,11 +145,13 @@ void CPlayer::DrawPath1()
 	light.Ambient = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f);
 	light.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	//-----------ライトをカメラとみなした行列を作成
-	D3DXMatrixLookAtLH(&light.ViewMatrix, &D3DXVECTOR3(-10.0f, 10.0f, -10.0f),
-		&D3DXVECTOR3(0.0f, 0.0f, 0.0f), &D3DXVECTOR3(0.0f, 1.0f, 0.0f));
+	D3DXMatrixLookAtLH(&light.ViewMatrix, &(D3DXVECTOR3(-10.0f , 20.0f, -10.0f) + m_Position),
+		&m_Position, &D3DXVECTOR3(0.0f, 1.0f, 0.0f));
 	//-----------ライト用のプロジェクション行列を作成
 	D3DXMatrixPerspectiveFovLH(&light.ProjectionMatrix, 1.0f,
-		(float)SCREEN_WIDTH / SCREEN_HEIGHT, 5.0f, 30.0f);
+		(float)SCREEN_WIDTH / SCREEN_HEIGHT, 5.0f, 100.0f);
+
+
 
 	shader_shadowM->SetLight(light);
 	CRenderer::BeginDepth();

@@ -230,25 +230,6 @@ void CRenderer::Init()
 	m_shaders.push_back(new CShadowM());
 	m_shaders.back()->Init();
 
-	// ライト無効化
-	LIGHT light;
-	light.Enable = true;
-	light.Direction = D3DXVECTOR4(1.0f, -1.0f, 1.0f, 0.0f);
-	D3DXVec4Normalize(&light.Direction, &light.Direction);
-	light.Ambient = D3DXCOLOR(0.1f, 0.1f, 0.1f, 1.0f);
-	light.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-
-
-	//shader_lit->SetLight(light);
-
-	//shader_pop->SetLight(light);
-
-	//shader_fog->SetLight(light);
-
-	//shader_instancing->SetLight(light);
-
-	
-
 
 	// マテリアル初期化
 	MATERIAL material;

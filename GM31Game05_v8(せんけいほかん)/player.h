@@ -3,6 +3,7 @@
 #include "fog.h"
 #include "pop.h"
 #include "shadowMapping.h"
+#include "animation_model.h"
 #include "game_object.h"
 
 //class CAnimationModel;

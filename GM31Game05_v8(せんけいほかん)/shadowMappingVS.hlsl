@@ -33,7 +33,6 @@ cbuffer LightBuffer : register(b4)	//コンスタントバッファ4番とする
 
 void main(
 	in  float4 inPosition		: POSITION0,
-	in	float4 inShadowPosition : POSITION1,
 	in  float4 inNormal : NORMAL0,
 	in  float4 inDiffuse : COLOR0,
 	in  float2 inTexCoord : TEXCOORD0,

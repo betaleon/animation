@@ -4,6 +4,7 @@
 #include "camera.h"
 #include "animation_model.h"
 #include "player.h"
+#include "meshField.h"
 #include "scene.h"
 
 

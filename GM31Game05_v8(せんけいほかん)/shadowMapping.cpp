@@ -93,6 +93,26 @@ void CShadowM::Init()
 
 	// 入力レイアウト設定
 	deviceContext->IASetInputLayout(m_VertexLayout);
+
+
+
+	// サンプラーステート設定
+	D3D11_SAMPLER_DESC samplerDesc;
+	ZeroMemory(&samplerDesc, sizeof(samplerDesc));
+	samplerDesc.Filter = D3D11_FILTER_ANISOTROPIC;
+	samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+	samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+	samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+	samplerDesc.MipLODBias = 0;
+	samplerDesc.MaxAnisotropy = 16;
+	samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+	samplerDesc.MinLOD = 0;
+	samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
+
+	ID3D11SamplerState* samplerState = NULL;
+	CRenderer::GetDevice()->CreateSamplerState(&samplerDesc, &samplerState);
+
+	PS_SetShadowSamplerState(samplerState);
 }
 
 void CShadowM::UnInit()

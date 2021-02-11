@@ -3,6 +3,7 @@
 #include "renderer.h"
 #include "model.h"
 #include "bullet.h"
+#include "enemy.h"
 #include "input.h"
 #include "scene.h"
 

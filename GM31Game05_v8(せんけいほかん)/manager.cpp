@@ -8,7 +8,7 @@
 #include "imgui.h"
 #include "animation_model.h"
 #include "player.h"
-#include "shadowMapping.h"
+#include "game.h"
 
 CScene* CManager::m_Scene = nullptr;
 
@@ -21,8 +21,9 @@ void CManager::Init()
 	CDebugGui::Init();
 	CInput::Init();
 
-	m_Scene = new CScene();
-	m_Scene->Init();
+	//m_Scene = new CScene();
+	//m_Scene->Init();
+	SetScene<CGame>();
 
 }
 
