@@ -5,6 +5,8 @@
 #include "player.h"
 #include "scene.h"
 #include "manager.h"
+#include <time.h>
+
 
 //float g_FieldHeight[TILE_X][TILE_Z]=
 //{
@@ -24,28 +26,6 @@ void CMeshField::Init()
 
 	int Array[TILE_X + 1][TILE_Z + 1] = {};
 	DiamondSquare(Array, TILE_X);
-	
-	//for (int i = 0, k = 0; i <= TILE_Z; i++)
-	//{
-	//	for (int j = 0; j <= TILE_X; j++)
-	//	{
-	//		m_vertex[k].Position = D3DXVECTOR3((-TILE_WIDTH * (TILE_X / 2.0f)) + j * TILE_WIDTH,  0 , (TILE_HEIGHT*(TILE_Z / 2.0f)) + (-i * TILE_HEIGHT));
-	//		m_vertex[k].TexCoord = D3DXVECTOR2((1.0f*j) / (1.0f*TILE_X), (1.0f*i) / (1.0f*TILE_Z));
-	//		k++;
-	//	}
-	//}
-	//
-	////法線ベクトルの設定
-	//for (int i = 0; i < (TILE_X + 1)*(TILE_Z + 1); i++)
-	//{
-	//	m_vertex[i].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	//}
-	//
-	////反射光の設定(色)
-	//for (int i = 0; i < (TILE_X + 1)*(TILE_Z + 1); i++)
-	//{
-	//	m_vertex[i].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-	//}
 
 	for (int x = 0; x <= TILE_X; x++)
 	{
@@ -53,11 +33,11 @@ void CMeshField::Init()
 		{
 			//float y = sinf(x*0.5f)*5.0f;
 			float y = sinf(x*0.5f)*sinf(z*0.5f)*5.0f + Array[x][z];
+			//float y =  Array[x][z];
 			//float y = g_FieldHeight[z][x];
 			m_vertex[x][z].Position = D3DXVECTOR3((x - 10)*5.0f, y, (z - 10)*-5.0f);
 			m_vertex[x][z].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 			m_vertex[x][z].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-			//m_vertex[x][z].TexCoord = D3DXVECTOR2(x*0.5f, z*0.5f);
 			m_vertex[x][z].TexCoord = D3DXVECTOR2(x*0.5f, z*0.5f);
 		}
 	}
@@ -98,28 +78,6 @@ void CMeshField::Init()
 		//unsigned int index[((4 + (TILE_X - 1) * 2)*TILE_Z + 2 * (TILE_Z - 1))*2];
 		unsigned int index[((TILE_X + 2) * 2) * TILE_Z - 2];
 		//インデックスデータをバッファへ格納
-		//for (int i = 0, j = 0, k = (TILE_X + 1), s = 0; i < ((4 + (TILE_X - 1) * 2)*TILE_Z + 2 * (TILE_Z - 1)); i++)
-		//{
-		//
-		//	if (i % 2 == 0)
-		//	{
-		//		index[i + s] = k;
-		//		k++;											//kはインデックスバッファの大きい値のほう
-		//	}
-		//	else
-		//	{
-		//		index[i + s] = j;
-		//		j++;											//jはインデックスバッファの小さい値のほう
-		//	}
-		//
-		//	if ((i + 1) % ((TILE_X + 1) * 2) == 0)				//縮退ポリゴンの格納
-		//	{
-		//		index[i + s + 1] = j - 1;
-		//		index[i + s + 2] = k;
-		//		s += 2;											//sは縮退ポリゴンのカウンタ
-		//	}
-		//}
-
 		int i = 0;
 		for (int x = 0; x < TILE_X; x++)
 		{
@@ -363,7 +321,7 @@ float CMeshField::GetHeight(D3DXVECTOR3 Position)
 
 void CMeshField::DiamondSquare(int Array[TILE_X + 1][TILE_Z + 1], int size)
 {
-	int half = size / 2;
+	int half = size /2;
 	if (half < 1)
 		return;
 	//square steps
@@ -389,7 +347,7 @@ void CMeshField::DiamondSquare(int Array[TILE_X + 1][TILE_Z + 1], int size)
 void CMeshField::SquareStep(int Array[TILE_X + 1][TILE_Z + 1], int x, int z, int reach)
 {
 	int count = 0;
-	float avg = 5.0f;
+	float avg = 0.1f;
 	if (x - reach >= 0 && z - reach >= 0)
 	{
 		avg += Array[x - reach][z - reach];
@@ -421,30 +379,32 @@ void CMeshField::DiamondStep(int Array[TILE_X + 1][TILE_Z + 1], int x, int z, in
 	float avg = 5.0f;
 	if (x - reach >= 0)
 	{
-		avg += Array[x - reach][z];
+		m_avg += Array[x - reach][z];
 		count++;
 	}
 	if (x + reach < TILE_X)
 	{
-		avg += Array[x + reach][z];
+		m_avg += Array[x + reach][z];
 		count++;
 	}
 	if (z - reach >= 0)
 	{
-		avg += Array[x][z - reach];
+		m_avg += Array[x][z - reach];
 		count++;
 	}
 	if (z + reach < TILE_Z)
 	{
-		avg += Array[x][z + reach];
+		m_avg += Array[x][z + reach];
 		count++;
 	}
-	avg += Random(reach);
-	avg /= count;
-	Array[x][z] = (int)avg;
+	m_avg += Random(reach);
+	m_avg /= count;
+	Array[x][z] = (int)m_avg;
 }
 
 float CMeshField::Random(int range)
 {
-	return (rand() % (range * 2)) - range;
+	srand(time(NULL));
+
+	return fabs((rand() % (range * 2)) - range);
 }

@@ -11,20 +11,22 @@
 
 class CMeshField : public CGameObject
 {
-private:
+public:
 	ID3D11Buffer*				m_VertexBuffer = NULL;
 	ID3D11ShaderResourceView*	m_Texture = NULL;
 
 	ID3D11Buffer*				m_IndexBuffer = NULL;
 
 	//VERTEX_3D m_vertex[(TILE_X + 1)*(TILE_Z+1)];
-	VERTEX_3D m_vertex[TILE_X + 1][TILE_Z + 1];
+	//VERTEX_3D m_vertex[TILE_X + 1][TILE_Z + 1];
 
 	CLit* shader_lit;
 	CFog* shader_fog;
 	CPop* shader_pop;
 	CShadowM* shader_shadowM;
 public:
+	VERTEX_3D m_vertex[TILE_X + 1][TILE_Z + 1];
+	float m_avg = 5.0f;
 	void Init();
 	void Uninit();
 	void Update();

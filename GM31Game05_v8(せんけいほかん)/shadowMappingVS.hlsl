@@ -12,6 +12,21 @@ cbuffer ProjectionBuffer : register(b2)
 	matrix Projection;
 }
 
+// マテリアルバッファ
+struct MATERIAL
+{
+	float4		Ambient;
+	float4		Diffuse;
+	float4		Specular;
+	float4		Emission;
+	float		Shininess;
+};
+
+cbuffer MaterialBuffer : register(b3)
+{
+	MATERIAL	Material;
+}
+
 //ライトオブジェクト構造体とコンスタントバッファ
 struct LIGHT
 {
@@ -41,7 +56,8 @@ void main(
 	out float4 outShadowPosition : POSITON1,
 	out float4 outNormal : NORMAL0,
 	out float2 outTexCoord : TEXCOORD0,
-	out float4 outDiffuse : COLOR0
+	out float4 outDiffuse : COLOR0,
+	out float  outDepth	: DEPTH
 )
 {
 	matrix wvp;
@@ -66,6 +82,7 @@ void main(
 	outNormal = worldNormal;				//ワールド変換した法線を出力
 	outTexCoord = inTexCoord;				//テクスチャ座標を出力
 
+	outDepth = 1 - saturate((50 - outPosition.w) / (50 - 0.1F));
 	//--ここまで普通の頂点変換--
 	//1path目　シャドウマップ作成
 	//カメラ&プロジェクション行列がライトの物になっている。
@@ -75,6 +92,26 @@ void main(
 	//通常のカメラから見た状態をレンダリングする
 	//このpathでのShadowPositionはライトから見た目の座標を表す情報として
 	//ピクセルシェーダーで利用される
+
+	//fog
+	if (Light.Enable)
+	{
+		light = 0.5 - 0.5 * dot(Light.Direction.xyz, worldNormal.xyz);
+
+		outDiffuse = inDiffuse * Material.Diffuse * light * Light.Diffuse;
+		outDiffuse += inDiffuse * Material.Ambient * Light.Ambient;
+		outDiffuse += Material.Emission;
+	}
+	else
+	{
+		outDiffuse = inDiffuse * Material.Diffuse;
+	}
+
+	outDiffuse.a = inDiffuse.a * Material.Diffuse.a;
+
+	//fogここまで
+
+
 	matrix lightwvp;//-----VSではここが大事　ライト=カメラとした変換行列を作成
 	lightwvp = mul(World, Light.View);//
 	lightwvp = mul(lightwvp, Light.Projection);
